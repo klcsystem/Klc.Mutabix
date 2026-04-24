@@ -1,9 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '../ui/Drawer'
 import Input from '../ui/Input'
 import Select from '../ui/Select'
 import DatePicker from '../ui/DatePicker'
 import Button from '../ui/Button'
+import { useApiQuery } from '../../hooks/useApi'
+
+interface CurrencyAccount {
+  id: number
+  code: string
+  name: string
+  currencyType: string
+}
+
+interface ApiResponse<T> {
+  success: boolean
+  message: string | null
+  data: T
+}
 
 interface ReconciliationForm {
   currencyAccountId: string
@@ -23,14 +37,6 @@ const emptyForm: ReconciliationForm = {
   credit: '',
 }
 
-const accountOptions = [
-  { value: '1', label: 'ABC Ticaret A.S.' },
-  { value: '2', label: 'XYZ Sanayi Ltd.' },
-  { value: '3', label: 'Delta Lojistik A.S.' },
-  { value: '4', label: 'Omega Gida San.' },
-  { value: '5', label: 'Beta Insaat Ltd.' },
-]
-
 const currencyOptions = [
   { value: 'TRY', label: 'TRY - Turk Lirasi' },
   { value: 'USD', label: 'USD - Amerikan Dolari' },
@@ -45,6 +51,30 @@ interface ReconciliationDrawerProps {
 
 export default function ReconciliationDrawer({ open, onClose, onSave }: ReconciliationDrawerProps) {
   const [form, setForm] = useState<ReconciliationForm>(emptyForm)
+
+  const { data: accountsData } = useApiQuery<ApiResponse<CurrencyAccount[]>>(
+    ['currencyAccounts', '1'],
+    '/currencyaccounts/company/1',
+  )
+
+  const accountOptions = (accountsData?.data ?? []).map((a) => ({
+    value: String(a.id),
+    label: `${a.code} — ${a.name}`,
+  }))
+
+  useEffect(() => {
+    if (open) setForm(emptyForm)
+  }, [open])
+
+  const handleAccountChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const accountId = e.target.value
+    const account = accountsData?.data?.find((a) => String(a.id) === accountId)
+    setForm((p) => ({
+      ...p,
+      currencyAccountId: accountId,
+      currency: account?.currencyType ?? p.currency,
+    }))
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,7 +91,7 @@ export default function ReconciliationDrawer({ open, onClose, onSave }: Reconcil
           options={accountOptions}
           placeholder="Cari hesap seciniz"
           value={form.currencyAccountId}
-          onChange={(e) => setForm((p) => ({ ...p, currencyAccountId: e.target.value }))}
+          onChange={handleAccountChange}
           required
         />
         <Select

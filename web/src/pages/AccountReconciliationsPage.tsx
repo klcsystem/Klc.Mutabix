@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Eye, Send, Pencil, Trash2, Mail, MailOpen } from 'lucide-react'
+import { Plus, Eye, Send, Trash2, Mail, MailOpen, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/ui/Button'
 import Select from '../components/ui/Select'
@@ -10,62 +10,73 @@ import ConfirmModal from '../components/ui/ConfirmModal'
 import ReconciliationDrawer from '../components/reconciliation/ReconciliationDrawer'
 import SendEmailDialog from '../components/reconciliation/SendEmailDialog'
 import { formatCurrency } from '../utils/formatters'
+import { useApiQuery, useApiMutation } from '../hooks/useApi'
+import { useQueryClient } from '@tanstack/react-query'
+import apiClient from '../api/client'
 
-type ReconciliationStatus = 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected'
-
-interface Reconciliation {
-  id: string
-  accountName: string
-  accountEmail: string
+interface AccountReconciliation {
+  id: number
+  companyId: number
+  currencyAccountId: number
+  currencyAccountName: string
   startDate: string
   endDate: string
-  debit: number
-  credit: number
-  currency: string
-  status: ReconciliationStatus
-  emailSent: boolean
-  emailRead: boolean
+  currencyType: string
+  debitAmount: number
+  creditAmount: number
+  status: string
+  guid: string | null
+  isSent: boolean
+  sentDate: string | null
+  createdAt: string
 }
 
-const mockData: Reconciliation[] = [
-  { id: '1', accountName: 'ABC Ticaret A.S.', accountEmail: 'muhasebe@abc.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 125000, credit: 98000, currency: 'TRY', status: 'Approved', emailSent: true, emailRead: true },
-  { id: '2', accountName: 'XYZ Sanayi Ltd.', accountEmail: 'finans@xyz.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 450000, credit: 320000, currency: 'TRY', status: 'Sent', emailSent: true, emailRead: false },
-  { id: '3', accountName: 'Delta Lojistik A.S.', accountEmail: 'muhasebe@delta.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 78000, credit: 78000, currency: 'USD', status: 'Read', emailSent: true, emailRead: true },
-  { id: '4', accountName: 'Omega Gida San.', accountEmail: 'info@omega.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 210000, credit: 195000, currency: 'TRY', status: 'Draft', emailSent: false, emailRead: false },
-  { id: '5', accountName: 'Beta Insaat Ltd.', accountEmail: 'mali@beta.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 560000, credit: 480000, currency: 'EUR', status: 'Rejected', emailSent: true, emailRead: true },
-  { id: '6', accountName: 'Gamma Tekstil A.S.', accountEmail: 'muhasebe@gamma.com', startDate: '2026-01-01', endDate: '2026-03-31', debit: 92000, credit: 88000, currency: 'TRY', status: 'Sent', emailSent: true, emailRead: false },
-]
+interface ApiResponse<T> {
+  success: boolean
+  message: string | null
+  data: T
+}
+
+const COMPANY_ID = 1
 
 const statusOptions = [
   { value: '', label: 'Tumu' },
-  { value: 'Draft', label: 'Taslak' },
+  { value: 'Pending', label: 'Bekliyor' },
   { value: 'Sent', label: 'Gonderildi' },
-  { value: 'Read', label: 'Okundu' },
   { value: 'Approved', label: 'Onaylandi' },
   { value: 'Rejected', label: 'Reddedildi' },
 ]
 
-const accountFilterOptions = [
-  { value: '', label: 'Tum Hesaplar' },
-  { value: 'ABC Ticaret A.S.', label: 'ABC Ticaret A.S.' },
-  { value: 'XYZ Sanayi Ltd.', label: 'XYZ Sanayi Ltd.' },
-  { value: 'Delta Lojistik A.S.', label: 'Delta Lojistik A.S.' },
-]
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('tr-TR')
+}
 
 export default function AccountReconciliationsPage() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [statusFilter, setStatusFilter] = useState('')
-  const [accountFilter, setAccountFilter] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [deleteModal, setDeleteModal] = useState<string | null>(null)
-  const [emailDialog, setEmailDialog] = useState<Reconciliation | null>(null)
-  const [data, setData] = useState(mockData)
+  const [deleteModal, setDeleteModal] = useState<number | null>(null)
+  const [emailDialog, setEmailDialog] = useState<AccountReconciliation | null>(null)
+  const [sendingEmail, setSendingEmail] = useState(false)
 
-  const filtered = data.filter((r) => {
+  const { data, isLoading } = useApiQuery<ApiResponse<AccountReconciliation[]>>(
+    ['reconciliations', String(COMPANY_ID)],
+    `/reconciliations/account/${COMPANY_ID}`,
+  )
+
+  const reconciliations = data?.data ?? []
+
+  const deleteMutation = useApiMutation<ApiResponse<boolean>, void>(
+    `/reconciliations/account/${deleteModal}`,
+    'delete',
+    [['reconciliations']],
+  )
+
+  const filtered = reconciliations.filter((r) => {
     if (statusFilter && r.status !== statusFilter) return false
-    if (accountFilter && r.accountName !== accountFilter) return false
     if (startDate && r.startDate < startDate) return false
     if (endDate && r.endDate > endDate) return false
     return true
@@ -73,8 +84,43 @@ export default function AccountReconciliationsPage() {
 
   const handleDelete = () => {
     if (deleteModal) {
-      setData((prev) => prev.filter((r) => r.id !== deleteModal))
-      setDeleteModal(null)
+      deleteMutation.mutate(undefined, {
+        onSuccess: () => {
+          setDeleteModal(null)
+          queryClient.invalidateQueries({ queryKey: ['reconciliations'] })
+        },
+      })
+    }
+  }
+
+  const handleSendEmail = async () => {
+    if (!emailDialog) return
+    setSendingEmail(true)
+    try {
+      await apiClient.post(`/reconciliations/account/${emailDialog.id}/send`)
+      queryClient.invalidateQueries({ queryKey: ['reconciliations'] })
+      setEmailDialog(null)
+    } catch {
+      // error handled silently
+    } finally {
+      setSendingEmail(false)
+    }
+  }
+
+  const handleCreateSave = async (formData: { currencyAccountId: string; currency: string; startDate: string; endDate: string; debit: string; credit: string }) => {
+    try {
+      await apiClient.post('/reconciliations/account', {
+        companyId: COMPANY_ID,
+        currencyAccountId: Number(formData.currencyAccountId),
+        startDate: new Date(formData.startDate).toISOString(),
+        endDate: new Date(formData.endDate).toISOString(),
+        currencyType: formData.currency,
+        debitAmount: Number(formData.debit) || 0,
+        creditAmount: Number(formData.credit) || 0,
+      })
+      queryClient.invalidateQueries({ queryKey: ['reconciliations'] })
+    } catch {
+      // error handled silently
     }
   }
 
@@ -88,14 +134,6 @@ export default function AccountReconciliationsPage() {
             options={statusOptions}
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-          />
-        </div>
-        <div className="w-48">
-          <Select
-            label="Cari Hesap"
-            options={accountFilterOptions}
-            value={accountFilter}
-            onChange={(e) => setAccountFilter(e.target.value)}
           />
         </div>
         <div className="w-40">
@@ -127,23 +165,32 @@ export default function AccountReconciliationsPage() {
             </Tr>
           </Thead>
           <Tbody>
-            {filtered.length === 0 ? (
+            {isLoading ? (
+              <Tr>
+                <Td colSpan={8} className="text-center text-slate-400 py-8">
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Yukleniyor...
+                  </div>
+                </Td>
+              </Tr>
+            ) : filtered.length === 0 ? (
               <Tr>
                 <Td colSpan={8} className="text-center text-slate-400 py-8">Kayit bulunamadi.</Td>
               </Tr>
             ) : (
               filtered.map((r) => (
                 <Tr key={r.id}>
-                  <Td className="font-medium text-slate-900">{r.accountName}</Td>
-                  <Td className="text-[12px]">{r.startDate} — {r.endDate}</Td>
-                  <Td className="font-mono text-[12px]">{formatCurrency(r.debit, r.currency)}</Td>
-                  <Td className="font-mono text-[12px]">{formatCurrency(r.credit, r.currency)}</Td>
-                  <Td>{r.currency}</Td>
-                  <Td><StatusBadge status={r.status} /></Td>
+                  <Td className="font-medium text-slate-900">{r.currencyAccountName}</Td>
+                  <Td className="text-[12px]">{formatDate(r.startDate)} — {formatDate(r.endDate)}</Td>
+                  <Td className="font-mono text-[12px]">{formatCurrency(r.debitAmount, r.currencyType)}</Td>
+                  <Td className="font-mono text-[12px]">{formatCurrency(r.creditAmount, r.currencyType)}</Td>
+                  <Td>{r.currencyType}</Td>
+                  <Td><StatusBadge status={r.status as 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected' | 'Expired'} /></Td>
                   <Td>
                     <div className="flex items-center gap-1">
-                      {r.emailSent ? (
-                        r.emailRead ? (
+                      {r.isSent ? (
+                        r.status === 'Approved' || r.status === 'Rejected' ? (
                           <MailOpen className="w-4 h-4 text-emerald-500" />
                         ) : (
                           <Mail className="w-4 h-4 text-blue-500" />
@@ -162,23 +209,24 @@ export default function AccountReconciliationsPage() {
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
-                      <button
-                        onClick={() => setEmailDialog(r)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-                        title="Email Gonder"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                      </button>
-                      <button className="p-1.5 rounded-lg text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-colors" title="Duzenle">
-                        <Pencil className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => setDeleteModal(r.id)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-                        title="Sil"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      {!r.isSent && (
+                        <button
+                          onClick={() => setEmailDialog(r)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                          title="Email Gonder"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                      {r.status === 'Pending' && (
+                        <button
+                          onClick={() => setDeleteModal(r.id)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                          title="Sil"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                     </div>
                   </Td>
                 </Tr>
@@ -191,7 +239,7 @@ export default function AccountReconciliationsPage() {
       <ReconciliationDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        onSave={() => {}}
+        onSave={handleCreateSave}
       />
 
       <ConfirmModal
@@ -204,14 +252,15 @@ export default function AccountReconciliationsPage() {
       <SendEmailDialog
         open={!!emailDialog}
         onClose={() => setEmailDialog(null)}
-        onSend={() => setEmailDialog(null)}
+        onSend={handleSendEmail}
+        loading={sendingEmail}
         data={emailDialog ? {
-          companyName: emailDialog.accountName,
-          email: emailDialog.accountEmail,
-          period: `${emailDialog.startDate} — ${emailDialog.endDate}`,
-          debit: emailDialog.debit,
-          credit: emailDialog.credit,
-          currency: emailDialog.currency,
+          companyName: emailDialog.currencyAccountName,
+          email: '',
+          period: `${formatDate(emailDialog.startDate)} — ${formatDate(emailDialog.endDate)}`,
+          debit: emailDialog.debitAmount,
+          credit: emailDialog.creditAmount,
+          currency: emailDialog.currencyType,
         } : undefined}
       />
     </div>
