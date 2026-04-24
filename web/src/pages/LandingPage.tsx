@@ -151,8 +151,8 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/50">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-400/20">
               <FileCheck className="w-4.5 h-4.5 text-white" />
@@ -163,11 +163,11 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-[13px] text-slate-600 hover:text-orange-500 transition-colors">Özellikler</a>
-            <a href="#erp" className="text-[13px] text-slate-600 hover:text-orange-500 transition-colors">ERP</a>
-            <a href="#how" className="text-[13px] text-slate-600 hover:text-orange-500 transition-colors">Nasıl Çalışır</a>
-            <a href="#pricing" className="text-[13px] text-slate-600 hover:text-orange-500 transition-colors">Fiyatlar</a>
-            <a href="#faq" className="text-[13px] text-slate-600 hover:text-orange-500 transition-colors">SSS</a>
+            <a href="#features" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Özellikler</a>
+            <a href="#erp" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">ERP</a>
+            <a href="#how" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Nasıl Çalışır</a>
+            <a href="#pricing" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Fiyatlar</a>
+            <a href="#faq" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">SSS</a>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={() => navigate('/login')} className="text-[13px] text-slate-600 hover:text-slate-900 font-medium transition-colors">
@@ -175,7 +175,7 @@ export default function LandingPage() {
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[13px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-lg shadow-orange-400/20 active:scale-[0.98]"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[13px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-lg shadow-orange-400/20 active:scale-[0.98]"
             >
               Ücretsiz Dene
             </button>
@@ -183,62 +183,55 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden pt-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]" />
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-[10%] w-[500px] h-[500px] bg-orange-400/8 rounded-full blur-[150px]" />
-          <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-blue-500/8 rounded-full blur-[120px]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-orange-500/5 rounded-full blur-[100px]" />
-          <div className="absolute inset-0 opacity-[0.015]" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
+      {/* Hero — White */}
+      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-50/40 via-white to-white" />
+        <div className="absolute top-20 left-[5%] w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 right-[5%] w-[400px] h-[400px] bg-slate-100/60 rounded-full blur-[120px]" />
 
-        <div className="relative max-w-5xl mx-auto text-center px-6 py-28 lg:py-36">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] mb-8">
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-[12px] text-blue-200/60 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
+        <div className="relative max-w-5xl mx-auto text-center px-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200/50 mb-8">
+            <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+            <span className="text-[12px] text-orange-600 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
             Cari Hesap Mutabakatı<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
               Artık Dijital
             </span>
           </h1>
 
-          <p className="text-base lg:text-lg text-blue-200/40 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+          <p className="text-base lg:text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
             ERP entegrasyonları ile cari hesaplarınızı senkronize edin, tek tıkla mutabakat gönderin,
             karşı tarafın yanıtını gerçek zamanlı takip edin. Ba/Bs bildirimleri, otomatik eşleştirme
             ve detaylı raporlarla muhasebe süreçlerinizi hızlandırın.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
             <button
               onClick={() => navigate('/login')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-500/20 active:scale-[0.98] flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-400/25 active:scale-[0.98] flex items-center justify-center gap-2"
             >
               Ücretsiz Dene <ArrowRight className="w-4.5 h-4.5" />
             </button>
             <a
               href="#how"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-white/10 text-white/70 text-[15px] font-medium hover:bg-white/5 hover:text-white transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-200 text-slate-600 text-[15px] font-medium hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
             >
               Nasıl Çalışır? <ChevronRight className="w-4 h-4" />
             </a>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
             {stats.map((s) => (
-              <div key={s.label} className="text-center">
+              <div key={s.label} className="text-center p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <s.icon className="w-4 h-4 text-orange-400/60" />
-                  <span className="text-2xl font-bold text-white">{s.value}</span>
+                  <s.icon className="w-4 h-4 text-orange-500" />
+                  <span className="text-2xl font-bold text-slate-900">{s.value}</span>
                 </div>
-                <span className="text-[12px] text-blue-200/30 font-medium">{s.label}</span>
+                <span className="text-[12px] text-slate-400 font-medium">{s.label}</span>
               </div>
             ))}
           </div>
@@ -246,7 +239,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="features" className="max-w-7xl mx-auto px-6 py-24">
+      <section id="features" className="max-w-7xl mx-auto px-6 py-24 border-t border-slate-100">
         <div className="text-center mb-16">
           <span className="inline-block text-[12px] font-semibold text-orange-500 uppercase tracking-[0.15em] mb-3">Özellikler</span>
           <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Her İhtiyacınız İçin<br />Kapsamlı Çözümler</h2>
@@ -258,12 +251,12 @@ export default function LandingPage() {
               key={f.title}
               className={`group p-6 rounded-2xl border transition-all duration-300 ${
                 f.highlight
-                  ? 'border-orange-200 bg-gradient-to-br from-orange-50/50 to-amber-50/30 shadow-lg shadow-orange-100/50'
-                  : 'border-slate-200/60 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50'
+                  ? 'border-orange-200 bg-gradient-to-br from-orange-50/80 to-amber-50/40 shadow-lg shadow-orange-100/50'
+                  : 'border-slate-200/60 bg-white hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50'
               }`}
             >
               <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 transition-colors ${
-                f.highlight ? 'bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg shadow-orange-400/20' : 'bg-orange-50 group-hover:bg-orange-100'
+                f.highlight ? 'bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg shadow-orange-400/20' : 'bg-slate-50 group-hover:bg-orange-50'
               }`}>
                 <f.icon className={`w-5 h-5 ${f.highlight ? 'text-white' : 'text-orange-500'}`} />
               </div>
@@ -274,41 +267,41 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ERP Integrations */}
-      <section id="erp" className="bg-[#0f172a] py-24">
+      {/* ERP Integrations — Light */}
+      <section id="erp" className="bg-slate-50/80 py-24 border-t border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="inline-block text-[12px] font-semibold text-orange-400 uppercase tracking-[0.15em] mb-3">Entegrasyonlar</span>
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">ERP Sisteminizle<br />Anında Entegre Olun</h2>
-            <p className="text-blue-200/40 max-w-xl mx-auto">Türkiye'nin en çok kullanılan ERP sistemleriyle hazır entegrasyonlar</p>
+            <span className="inline-block text-[12px] font-semibold text-orange-500 uppercase tracking-[0.15em] mb-3">Entegrasyonlar</span>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">ERP Sisteminizle<br />Anında Entegre Olun</h2>
+            <p className="text-slate-500 max-w-xl mx-auto">Türkiye'nin en çok kullanılan ERP sistemleriyle hazır entegrasyonlar</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {erpLogos.map((erp) => (
-              <div key={erp.name} className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-orange-400/20 transition-all duration-300">
+              <div key={erp.name} className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-slate-200/60 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50 transition-all duration-300">
                 <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${erp.color} flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
                   {erp.letter}
                 </div>
-                <span className="text-[13px] text-blue-200/50 group-hover:text-orange-400/80 transition-colors font-medium">{erp.name}</span>
+                <span className="text-[13px] text-slate-600 group-hover:text-orange-600 transition-colors font-medium">{erp.name}</span>
               </div>
             ))}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-              <Globe className="w-8 h-8 text-orange-400/60 mb-4" />
-              <h3 className="text-[15px] font-semibold text-white mb-2">Tek Tıkla Senkronizasyon</h3>
-              <p className="text-[13px] text-blue-200/40 leading-relaxed">Cari hesaplarınızı ve mutabakat verilerinizi ERP'den otomatik çekin. Manuel veri girişi yapmaya son.</p>
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm">
+              <Globe className="w-8 h-8 text-orange-500 mb-4" />
+              <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Tek Tıkla Senkronizasyon</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">Cari hesaplarınızı ve mutabakat verilerinizi ERP'den otomatik çekin. Manuel veri girişi yapmaya son.</p>
             </div>
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-              <Shield className="w-8 h-8 text-orange-400/60 mb-4" />
-              <h3 className="text-[15px] font-semibold text-white mb-2">Güvenli Bağlantı</h3>
-              <p className="text-[13px] text-blue-200/40 leading-relaxed">ERP bağlantı bilgileriniz şifrelenmiş olarak saklanır. Her senkronizasyon detaylı log ile kayıt altına alınır.</p>
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm">
+              <Shield className="w-8 h-8 text-orange-500 mb-4" />
+              <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Güvenli Bağlantı</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">ERP bağlantı bilgileriniz şifrelenmiş olarak saklanır. Her senkronizasyon detaylı log ile kayıt altına alınır.</p>
             </div>
-            <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-              <Zap className="w-8 h-8 text-orange-400/60 mb-4" />
-              <h3 className="text-[15px] font-semibold text-white mb-2">Generic API Adapter</h3>
-              <p className="text-[13px] text-blue-200/40 leading-relaxed">Listede olmayan ERP'niz mi var? Generic REST adapter ile herhangi bir API'ye bağlanabilirsiniz.</p>
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 shadow-sm">
+              <Zap className="w-8 h-8 text-orange-500 mb-4" />
+              <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Generic API Adapter</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">Listede olmayan ERP'niz mi var? Generic REST adapter ile herhangi bir API'ye bağlanabilirsiniz.</p>
             </div>
           </div>
         </div>
@@ -331,7 +324,7 @@ export default function LandingPage() {
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-orange-400/20">
                   {s.num}
                 </div>
-                <s.icon className="w-5 h-5 text-slate-400" />
+                <s.icon className="w-5 h-5 text-slate-300" />
               </div>
               <h3 className="text-[15px] font-semibold text-slate-900 mb-2">{s.title}</h3>
               <p className="text-[13px] text-slate-500 leading-relaxed">{s.desc}</p>
@@ -341,7 +334,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="bg-slate-50 py-24">
+      <section id="pricing" className="bg-slate-50/80 py-24 border-t border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="inline-block text-[12px] font-semibold text-orange-500 uppercase tracking-[0.15em] mb-3">Fiyatlandırma</span>
@@ -402,7 +395,7 @@ export default function LandingPage() {
           </div>
           <div className="space-y-4">
             {faqs.map((faq) => (
-              <details key={faq.q} className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden">
+              <details key={faq.q} className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm">
                 <summary className="flex items-center justify-between p-5 cursor-pointer list-none text-[14px] font-semibold text-slate-900 hover:text-orange-600 transition-colors">
                   {faq.q}
                   <ChevronRight className="w-4 h-4 text-slate-400 group-open:rotate-90 transition-transform" />
@@ -416,26 +409,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] to-[#1e293b]" />
-        <div className="absolute inset-0">
-          <div className="absolute top-10 right-[20%] w-[400px] h-[400px] bg-orange-400/10 rounded-full blur-[150px]" />
-        </div>
-        <div className="relative max-w-3xl mx-auto text-center px-6 py-20">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Mutabakat Süreçlerinizi<br />Dijitalleştirin</h2>
-          <p className="text-blue-200/40 mb-8 max-w-lg mx-auto">14 gün ücretsiz deneyin. Kredi kartı gerekmez. Dakikalar içinde başlatın.</p>
-          <button
-            onClick={() => navigate('/login')}
-            className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-500/20 active:scale-[0.98]"
-          >
-            Hemen Başla <ArrowRight className="w-4.5 h-4.5 inline ml-2" />
-          </button>
+      {/* CTA — Light gradient */}
+      <section className="border-t border-slate-100">
+        <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-amber-50/30">
+          <div className="absolute top-10 right-[20%] w-[400px] h-[400px] bg-orange-100/50 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 left-[10%] w-[300px] h-[300px] bg-amber-100/40 rounded-full blur-[120px]" />
+          <div className="relative max-w-3xl mx-auto text-center px-6 py-20">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Mutabakat Süreçlerinizi<br />Dijitalleştirin</h2>
+            <p className="text-slate-500 mb-8 max-w-lg mx-auto">14 gün ücretsiz deneyin. Kredi kartı gerekmez. Dakikalar içinde başlatın.</p>
+            <button
+              onClick={() => navigate('/login')}
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-400/25 active:scale-[0.98]"
+            >
+              Hemen Başla <ArrowRight className="w-4.5 h-4.5 inline ml-2" />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0f172a] border-t border-white/[0.06]">
+      {/* Footer — Clean white */}
+      <footer className="border-t border-slate-200/60 bg-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
             <div className="col-span-1 md:col-span-2">
@@ -443,45 +436,45 @@ export default function LandingPage() {
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
                   <FileCheck className="w-4.5 h-4.5 text-white" />
                 </div>
-                <span className="text-lg font-bold text-white">Mutabix</span>
+                <span className="text-lg font-bold text-slate-900">Mutabix</span>
               </div>
-              <p className="text-[13px] text-blue-200/30 leading-relaxed max-w-sm">
+              <p className="text-[13px] text-slate-400 leading-relaxed max-w-sm">
                 Türkiye'nin lider e-mutabakat platformu. Cari hesap mutabakatları, Ba/Bs bildirimleri ve
                 ERP entegrasyonları ile muhasebe süreçlerinizi hızlandırın.
               </p>
             </div>
             <div>
-              <h4 className="text-[13px] font-semibold text-white mb-4">Ürün</h4>
+              <h4 className="text-[13px] font-semibold text-slate-900 mb-4">Ürün</h4>
               <ul className="space-y-2.5">
-                <li><a href="#features" className="text-[12px] text-blue-200/30 hover:text-orange-400 transition-colors">Özellikler</a></li>
-                <li><a href="#erp" className="text-[12px] text-blue-200/30 hover:text-orange-400 transition-colors">ERP Entegrasyonları</a></li>
-                <li><a href="#pricing" className="text-[12px] text-blue-200/30 hover:text-orange-400 transition-colors">Fiyatlar</a></li>
-                <li><a href="#faq" className="text-[12px] text-blue-200/30 hover:text-orange-400 transition-colors">SSS</a></li>
+                <li><a href="#features" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">Özellikler</a></li>
+                <li><a href="#erp" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">ERP Entegrasyonları</a></li>
+                <li><a href="#pricing" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">Fiyatlar</a></li>
+                <li><a href="#faq" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">SSS</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-[13px] font-semibold text-white mb-4">İletişim</h4>
+              <h4 className="text-[13px] font-semibold text-slate-900 mb-4">İletişim</h4>
               <ul className="space-y-2.5">
                 <li className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-orange-400/50" />
-                  <span className="text-[12px] text-blue-200/30">info@klcsystem.com</span>
+                  <Mail className="w-3.5 h-3.5 text-slate-300" />
+                  <span className="text-[12px] text-slate-400">info@klcsystem.com</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Building2 className="w-3.5 h-3.5 text-orange-400/50" />
-                  <span className="text-[12px] text-blue-200/30">KLC System</span>
+                  <Building2 className="w-3.5 h-3.5 text-slate-300" />
+                  <span className="text-[12px] text-slate-400">KLC System</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Globe className="w-3.5 h-3.5 text-orange-400/50" />
-                  <span className="text-[12px] text-blue-200/30">klcsystem.com</span>
+                  <Globe className="w-3.5 h-3.5 text-slate-300" />
+                  <span className="text-[12px] text-slate-400">klcsystem.com</span>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-[11px] text-blue-200/20">&copy; 2026 KLC System. Tüm hakları saklıdır.</p>
+          <div className="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-[11px] text-slate-300">&copy; 2026 KLC System. Tüm hakları saklıdır.</p>
             <div className="flex items-center gap-3">
-              <Users className="w-4 h-4 text-blue-200/15" />
-              <span className="text-[11px] text-blue-200/20">Powered by KLC System</span>
+              <Users className="w-4 h-4 text-slate-200" />
+              <span className="text-[11px] text-slate-300">Powered by KLC System</span>
             </div>
           </div>
         </div>
