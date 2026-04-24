@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password)
-      navigate('/')
+      navigate('/dashboard')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Giris basarisiz'
       setError(msg)

@@ -26,32 +26,27 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Routes>
-      <Route path="/landing" element={<LandingPage />} />
+      {/* Public routes */}
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mutabakat-yanit/:guid" element={<ReconciliationResponsePage />} />
-      <Route
-        path="/*"
-        element={
-          <ProtectedRoute>
-            <MainLayout>
-              <Routes>
-                <Route path="/" element={<DashboardPage />} />
-                <Route path="/cari-hesaplar" element={<CurrencyAccountsPage />} />
-                <Route path="/mutabakat" element={<AccountReconciliationsPage />} />
-                <Route path="/mutabakat/:id" element={<AccountReconciliationDetailPage />} />
-                <Route path="/ba-bs" element={<BaBsReconciliationsPage />} />
-                <Route path="/ayarlar/mail" element={<MailParametersPage />} />
-                <Route path="/ayarlar/sablonlar" element={<MailTemplatesPage />} />
-                <Route path="/ayarlar/kullanicilar" element={<UsersPage />} />
-                <Route path="/ayarlar/firmalar" element={<CompaniesPage />} />
-                <Route path="/ayarlar/profil" element={<ProfilePage />} />
-                <Route path="/ayarlar/erp" element={<ErpConnectionsPage />} />
-                <Route path="/bildirimler" element={<NotificationsPage />} />
-              </Routes>
-            </MainLayout>
-          </ProtectedRoute>
-        }
-      />
+
+      {/* Protected routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><MainLayout><DashboardPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/cari-hesaplar" element={<ProtectedRoute><MainLayout><CurrencyAccountsPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/mutabakat" element={<ProtectedRoute><MainLayout><AccountReconciliationsPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/mutabakat/:id" element={<ProtectedRoute><MainLayout><AccountReconciliationDetailPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ba-bs" element={<ProtectedRoute><MainLayout><BaBsReconciliationsPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/mail" element={<ProtectedRoute><MainLayout><MailParametersPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/sablonlar" element={<ProtectedRoute><MainLayout><MailTemplatesPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/kullanicilar" element={<ProtectedRoute><MainLayout><UsersPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/firmalar" element={<ProtectedRoute><MainLayout><CompaniesPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/profil" element={<ProtectedRoute><MainLayout><ProfilePage /></MainLayout></ProtectedRoute>} />
+      <Route path="/ayarlar/erp" element={<ProtectedRoute><MainLayout><ErpConnectionsPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/bildirimler" element={<ProtectedRoute><MainLayout><NotificationsPage /></MainLayout></ProtectedRoute>} />
+
+      {/* Catch-all */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

@@ -121,7 +121,7 @@ export default function Sidebar() {
       {/* Dashboard - Top Level */}
       <div className="px-3 pb-2 space-y-0.5">
         <NavLink
-          to="/"
+          to="/dashboard"
           end
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
