@@ -1,5 +1,6 @@
 using Klc.Mutabix.Application.Common.Interfaces;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,9 +61,12 @@ public class EmailService(IServiceProvider serviceProvider, ILogger<EmailService
         message.Body = new TextPart("html") { Text = body };
 
         using var client = new SmtpClient();
-        await client.ConnectAsync(smtpServer, smtpPort, useSsl, cancellationToken);
+        var sslOptions = useSsl
+            ? (smtpPort == 465 ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTls)
+            : SecureSocketOptions.None;
+        await client.ConnectAsync(smtpServer, smtpPort, sslOptions, cancellationToken);
 
-        if (useSsl && !string.IsNullOrEmpty(password))
+        if (!string.IsNullOrEmpty(password))
         {
             await client.AuthenticateAsync(fromAddress, password, cancellationToken);
         }
