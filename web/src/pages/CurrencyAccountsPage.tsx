@@ -1,48 +1,94 @@
 import { useState } from 'react'
-import { Search, Upload, Plus, Pencil, Trash2 } from 'lucide-react'
+import { Search, Upload, Plus, Pencil, Trash2, Loader2 } from 'lucide-react'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import Badge from '../components/ui/Badge'
 import { Table, Thead, Tbody, Tr, Th, Td } from '../components/ui/Table'
 import ConfirmModal from '../components/ui/ConfirmModal'
 import CurrencyAccountDrawer from '../components/reconciliation/CurrencyAccountDrawer'
+import { useApiQuery, useApiMutation } from '../hooks/useApi'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface CurrencyAccount {
-  id: string
+  id: number
+  companyId: number
   code: string
   name: string
-  taxNumber: string
-  email: string
-  contactPerson: string
+  taxNumber: string | null
+  email: string | null
+  currencyType: string
   isActive: boolean
+  createdAt: string
 }
 
-const mockData: CurrencyAccount[] = [
-  { id: '1', code: 'CH-001', name: 'ABC Ticaret A.S.', taxNumber: '1234567890', email: 'muhasebe@abc.com', contactPerson: 'Ahmet Yilmaz', isActive: true },
-  { id: '2', code: 'CH-002', name: 'XYZ Sanayi Ltd.', taxNumber: '9876543210', email: 'finans@xyz.com', contactPerson: 'Mehmet Demir', isActive: true },
-  { id: '3', code: 'CH-003', name: 'Delta Lojistik A.S.', taxNumber: '5678901234', email: 'muhasebecilik@delta.com', contactPerson: 'Ayse Kaya', isActive: false },
-  { id: '4', code: 'CH-004', name: 'Omega Gida San.', taxNumber: '3456789012', email: 'info@omega.com', contactPerson: 'Fatma Celik', isActive: true },
-  { id: '5', code: 'CH-005', name: 'Beta Insaat Ltd.', taxNumber: '7890123456', email: 'mali@beta.com', contactPerson: 'Ali Ozturk', isActive: true },
-]
+interface ApiResponse<T> {
+  success: boolean
+  message: string | null
+  data: T
+}
+
+const COMPANY_ID = 1
 
 export default function CurrencyAccountsPage() {
   const [search, setSearch] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [deleteModal, setDeleteModal] = useState<string | null>(null)
-  const [accounts, setAccounts] = useState(mockData)
+  const [editAccount, setEditAccount] = useState<CurrencyAccount | null>(null)
+  const [deleteModal, setDeleteModal] = useState<number | null>(null)
+  const queryClient = useQueryClient()
+
+  const { data, isLoading } = useApiQuery<ApiResponse<CurrencyAccount[]>>(
+    ['currencyAccounts', String(COMPANY_ID)],
+    `/currencyaccounts/company/${COMPANY_ID}`,
+  )
+
+  const accounts = data?.data ?? []
+
+  const createMutation = useApiMutation<ApiResponse<CurrencyAccount>, Record<string, unknown>>(
+    '/currencyaccounts',
+    'post',
+    [['currencyAccounts']],
+  )
+
+  const deleteMutation = useApiMutation<ApiResponse<boolean>, void>(
+    `/currencyaccounts/${deleteModal}`,
+    'delete',
+    [['currencyAccounts']],
+  )
 
   const filtered = accounts.filter(
     (a) =>
       a.code.toLowerCase().includes(search.toLowerCase()) ||
       a.name.toLowerCase().includes(search.toLowerCase()) ||
-      a.taxNumber.includes(search),
+      (a.taxNumber ?? '').includes(search),
   )
 
   const handleDelete = () => {
     if (deleteModal) {
-      setAccounts((prev) => prev.filter((a) => a.id !== deleteModal))
-      setDeleteModal(null)
+      deleteMutation.mutate(undefined, {
+        onSuccess: () => {
+          setDeleteModal(null)
+          queryClient.invalidateQueries({ queryKey: ['currencyAccounts'] })
+        },
+      })
     }
+  }
+
+  const handleSave = (formData: { code: string; name: string; taxNumber: string; email: string }) => {
+    createMutation.mutate(
+      {
+        companyId: COMPANY_ID,
+        code: formData.code,
+        name: formData.name,
+        taxNumber: formData.taxNumber || null,
+        email: formData.email || null,
+        currencyType: 'TRY',
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['currencyAccounts'] })
+        },
+      },
+    )
   }
 
   return (
@@ -61,7 +107,7 @@ export default function CurrencyAccountsPage() {
           <Button variant="outline" size="sm" icon={<Upload className="w-4 h-4" />}>
             Excel Yukle
           </Button>
-          <Button variant="primary" size="sm" icon={<Plus className="w-4 h-4" />} onClick={() => setDrawerOpen(true)}>
+          <Button variant="primary" size="sm" icon={<Plus className="w-4 h-4" />} onClick={() => { setEditAccount(null); setDrawerOpen(true) }}>
             Yeni Cari Hesap
           </Button>
         </div>
@@ -76,13 +122,22 @@ export default function CurrencyAccountsPage() {
               <Th>Ad</Th>
               <Th>Vergi No</Th>
               <Th>E-posta</Th>
-              <Th>Yetkili</Th>
+              <Th>Para Birimi</Th>
               <Th>Durum</Th>
               <Th className="text-right">Islemler</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {filtered.length === 0 ? (
+            {isLoading ? (
+              <Tr>
+                <Td className="text-center text-slate-400 py-8" colSpan={7}>
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Yukleniyor...
+                  </div>
+                </Td>
+              </Tr>
+            ) : filtered.length === 0 ? (
               <Tr>
                 <Td className="text-center text-slate-400 py-8" colSpan={7}>
                   Kayit bulunamadi.
@@ -93,9 +148,9 @@ export default function CurrencyAccountsPage() {
                 <Tr key={account.id}>
                   <Td className="font-medium text-slate-900">{account.code}</Td>
                   <Td>{account.name}</Td>
-                  <Td className="font-mono text-[12px]">{account.taxNumber}</Td>
-                  <Td>{account.email}</Td>
-                  <Td>{account.contactPerson}</Td>
+                  <Td className="font-mono text-[12px]">{account.taxNumber ?? '-'}</Td>
+                  <Td>{account.email ?? '-'}</Td>
+                  <Td>{account.currencyType}</Td>
                   <Td>
                     <Badge variant={account.isActive ? 'success' : 'default'}>
                       {account.isActive ? 'Aktif' : 'Pasif'}
@@ -103,7 +158,10 @@ export default function CurrencyAccountsPage() {
                   </Td>
                   <Td className="text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <button className="p-1.5 rounded-lg text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-colors">
+                      <button
+                        onClick={() => { setEditAccount(account); setDrawerOpen(true) }}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                      >
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
                       <button
@@ -124,13 +182,18 @@ export default function CurrencyAccountsPage() {
       {/* Drawer */}
       <CurrencyAccountDrawer
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        onSave={(data) => {
-          setAccounts((prev) => [
-            ...prev,
-            { id: String(Date.now()), ...data, isActive: true },
-          ])
-        }}
+        onClose={() => { setDrawerOpen(false); setEditAccount(null) }}
+        onSave={handleSave}
+        initialData={editAccount ? {
+          code: editAccount.code,
+          name: editAccount.name,
+          address: '',
+          taxOffice: '',
+          taxNumber: editAccount.taxNumber ?? '',
+          tcNumber: '',
+          email: editAccount.email ?? '',
+          contactPerson: '',
+        } : undefined}
       />
 
       {/* Delete Confirm */}
