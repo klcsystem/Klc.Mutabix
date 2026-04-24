@@ -16,6 +16,7 @@ import ProfilePage from './pages/settings/ProfilePage'
 import ErpConnectionsPage from './pages/settings/ErpConnectionsPage'
 import LandingPage from './pages/LandingPage'
 import NotificationsPage from './pages/NotificationsPage'
+import BalanceSummaryPage from './pages/BalanceSummaryPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth()
@@ -34,6 +35,7 @@ export default function App() {
       {/* Protected routes */}
       <Route path="/dashboard" element={<ProtectedRoute><MainLayout><DashboardPage /></MainLayout></ProtectedRoute>} />
       <Route path="/cari-hesaplar" element={<ProtectedRoute><MainLayout><CurrencyAccountsPage /></MainLayout></ProtectedRoute>} />
+      <Route path="/cari-hesaplar/bakiye" element={<ProtectedRoute><MainLayout><BalanceSummaryPage /></MainLayout></ProtectedRoute>} />
       <Route path="/mutabakat" element={<ProtectedRoute><MainLayout><AccountReconciliationsPage /></MainLayout></ProtectedRoute>} />
       <Route path="/mutabakat/:id" element={<ProtectedRoute><MainLayout><AccountReconciliationDetailPage /></MainLayout></ProtectedRoute>} />
       <Route path="/ba-bs" element={<ProtectedRoute><MainLayout><BaBsReconciliationsPage /></MainLayout></ProtectedRoute>} />
