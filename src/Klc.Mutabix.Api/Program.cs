@@ -79,18 +79,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Seed database (also creates tables via EnsureCreated)
-if (app.Environment.IsDevelopment())
-{
-    await Klc.Mutabix.Infrastructure.Persistence.MutabixSeeder.SeedAsync(app.Services);
-}
+// Create tables + seed database (runs on all environments)
+await Klc.Mutabix.Infrastructure.Persistence.MutabixSeeder.SeedAsync(app.Services);
 
 // Middleware pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Klc.Mutabix API v1"));
-}
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Klc.Mutabix API v1"));
 
 app.UseMiddleware<Klc.Mutabix.Api.Middleware.ExceptionMiddleware>();
 app.UseCors("AllowFrontend");
