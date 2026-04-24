@@ -1,0 +1,41 @@
+{
+  "common": {
+    "save": "Kaydet",
+    "cancel": "Iptal",
+    "delete": "Sil",
+    "edit": "Duzenle",
+    "create": "Olustur",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "export": "Disari Aktar",
+    "import": "Iceye Aktar",
+    "loading": "Yukleniyor...",
+    "noData": "Veri bulunamadi.",
+    "confirm": "Onayla",
+    "back": "Geri",
+    "next": "Ileri",
+    "yes": "Evet",
+    "no": "Hayir"
+  },
+  "auth": {
+    "login": "Giris Yap",
+    "logout": "Cikis Yap",
+    "email": "E-posta",
+    "password": "Sifre"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "reconciliation": "Mutabakat",
+    "companies": "Firmalar",
+    "users": "Kullanicilar",
+    "settings": "Ayarlar"
+  },
+  "reconciliation": {
+    "title": "Mutabakat",
+    "new": "Yeni Mutabakat",
+    "list": "Mutabakat Listesi",
+    "matched": "Eslesen",
+    "unmatched": "Eslesmeyen",
+    "pending": "Bekleyen"
+  }
+}

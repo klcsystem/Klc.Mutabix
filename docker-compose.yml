@@ -1,0 +1,100 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mutabix-postgres
+    ports:
+      - "1702:5432"
+    environment:
+      POSTGRES_DB: mutabix
+      POSTGRES_USER: mutabix
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mutabix123}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mutabix -d mutabix"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: mutabix-redis
+    ports:
+      - "1703:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: mutabix-rabbitmq
+    ports:
+      - "1709:5672"
+      - "1710:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: mutabix
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-mutabix2026}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mutabix-mailhog
+    ports:
+      - "1711:1025"
+      - "1712:8025"
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./src
+      dockerfile: Klc.Mutabix.Api/Dockerfile
+    container_name: mutabix-api
+    ports:
+      - "1701:8080"
+    environment:
+      - ConnectionStrings__PostgreSQL=Host=postgres;Port=5432;Database=mutabix;Username=mutabix;Password=${POSTGRES_PASSWORD:-mutabix123}
+      - ConnectionStrings__Redis=redis:6379
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Cors__Origins__0=http://localhost:1700
+      - Jwt__Secret=${JWT_SECRET:-Mutabix-Super-Secret-Key-2026-Must-Be-At-Least-32-Characters!}
+      - Jwt__Issuer=Mutabix
+      - Jwt__Audience=Mutabix
+      - Jwt__ExpirationMinutes=60
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=mutabix
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD:-mutabix2026}
+      - Mail__SmtpServer=mailhog
+      - Mail__SmtpPort=1025
+      - Mail__UseSsl=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: mutabix-web
+    ports:
+      - "1700:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

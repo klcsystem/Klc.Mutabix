@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Klc.Mutabix.Api/Klc.Mutabix.Api.csproj" />
+    <Project Path="src/Klc.Mutabix.Application/Klc.Mutabix.Application.csproj" />
+    <Project Path="src/Klc.Mutabix.Domain/Klc.Mutabix.Domain.csproj" />
+    <Project Path="src/Klc.Mutabix.Infrastructure/Klc.Mutabix.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Klc.Mutabix.Tests.Integration/Klc.Mutabix.Tests.Integration.csproj" />
+    <Project Path="tests/Klc.Mutabix.Tests.Unit/Klc.Mutabix.Tests.Unit.csproj" />
+  </Folder>
+</Solution>

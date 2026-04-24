@@ -1,0 +1,41 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "loading": "Loading...",
+    "noData": "No data found.",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "reconciliation": "Reconciliation",
+    "companies": "Companies",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "reconciliation": {
+    "title": "Reconciliation",
+    "new": "New Reconciliation",
+    "list": "Reconciliation List",
+    "matched": "Matched",
+    "unmatched": "Unmatched",
+    "pending": "Pending"
+  }
+}

@@ -1,0 +1,48 @@
+services:
+  api:
+    build:
+      context: ./src
+      dockerfile: Klc.Mutabix.Api/Dockerfile
+    container_name: mutabix-api
+    environment:
+      - ConnectionStrings__PostgreSQL=Host=shared-postgres;Port=5432;Database=mutabix_db;Username=mutabix;Password=${POSTGRES_PASSWORD}
+      - ConnectionStrings__Redis=shared-redis:6379
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Cors__AllowedOrigins__0=https://mutabix.klcsystem.com
+      - Jwt__Secret=${JWT_SECRET}
+      - Jwt__Issuer=Mutabix
+      - Jwt__Audience=Mutabix
+      - Jwt__ExpirationMinutes=60
+      - RabbitMQ__Host=shared-rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=mutabix
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+      - Mail__SmtpServer=${MAIL_SMTP_SERVER:-smtp.gmail.com}
+      - Mail__SmtpPort=${MAIL_SMTP_PORT:-587}
+      - Mail__UseSsl=true
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - shared-net
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: mutabix-web
+    depends_on:
+      - api
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true

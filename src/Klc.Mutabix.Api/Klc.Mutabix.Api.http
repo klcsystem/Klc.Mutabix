@@ -1,0 +1,6 @@
+@Klc.Mutabix.Api_HostAddress = http://localhost:5124
+
+GET {{Klc.Mutabix.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
