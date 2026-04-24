@@ -1,32 +1,60 @@
 using Klc.Mutabix.Application.Common.Interfaces;
 using MailKit.Net.Smtp;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 
 namespace Klc.Mutabix.Infrastructure.Services;
 
-public class EmailService(IConfiguration configuration, ILogger<EmailService> logger) : IMailService
+public class EmailService(IServiceProvider serviceProvider, ILogger<EmailService> logger) : IMailService
 {
     public async Task SendMailAsync(string to, string subject, string body, CancellationToken cancellationToken = default)
     {
         logger.LogInformation(
             "Email gonderiliyor -> To: {To}, Subject: {Subject}", to, subject);
 
-        var smtpServer = configuration["Mail:SmtpServer"];
-        if (string.IsNullOrEmpty(smtpServer))
+        string smtpServer;
+        int smtpPort;
+        bool useSsl;
+        string fromAddress;
+        string? password = null;
+
+        using (var scope = serviceProvider.CreateScope())
         {
-            logger.LogWarning("SMTP ayarlari yapilandirilmamis, email loglanarak atlanacak");
-            return;
+            var context = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+            var mailParam = await context.MailParameters
+                .FirstOrDefaultAsync(mp => mp.IsActive, cancellationToken);
+
+            if (mailParam is not null)
+            {
+                smtpServer = mailParam.SmtpServer;
+                smtpPort = mailParam.SmtpPort;
+                useSsl = mailParam.UseSsl;
+                fromAddress = mailParam.SenderEmail;
+                password = mailParam.Password;
+                logger.LogInformation("Mail parametreleri veritabanindan yuklendi (CompanyId: {CompanyId})", mailParam.CompanyId);
+            }
+            else
+            {
+                var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                smtpServer = configuration["Mail:SmtpServer"] ?? string.Empty;
+                if (string.IsNullOrEmpty(smtpServer))
+                {
+                    logger.LogWarning("SMTP ayarlari yapilandirilmamis, email loglanarak atlanacak");
+                    return;
+                }
+
+                smtpPort = int.Parse(configuration["Mail:SmtpPort"] ?? "1711");
+                useSsl = bool.Parse(configuration["Mail:UseSsl"] ?? "false");
+                fromAddress = configuration["Mail:FromAddress"] ?? "noreply@mutabix.com";
+                logger.LogInformation("Mail parametreleri konfigurasyondan yuklendi (fallback)");
+            }
         }
 
-        var smtpPort = int.Parse(configuration["Mail:SmtpPort"] ?? "1711");
-        var useSsl = bool.Parse(configuration["Mail:UseSsl"] ?? "false");
-        var fromAddress = configuration["Mail:FromAddress"] ?? "noreply@mutabix.com";
-        var fromName = configuration["Mail:FromName"] ?? "Mutabix E-Mutabakat";
-
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(fromName, fromAddress));
+        message.From.Add(new MailboxAddress(fromAddress, fromAddress));
         message.To.Add(MailboxAddress.Parse(to));
         message.Subject = subject;
         message.Body = new TextPart("html") { Text = body };
@@ -34,14 +62,9 @@ public class EmailService(IConfiguration configuration, ILogger<EmailService> lo
         using var client = new SmtpClient();
         await client.ConnectAsync(smtpServer, smtpPort, useSsl, cancellationToken);
 
-        if (useSsl)
+        if (useSsl && !string.IsNullOrEmpty(password))
         {
-            var username = configuration["Mail:Username"];
-            var password = configuration["Mail:Password"];
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-            {
-                await client.AuthenticateAsync(username, password, cancellationToken);
-            }
+            await client.AuthenticateAsync(fromAddress, password, cancellationToken);
         }
 
         await client.SendAsync(message, cancellationToken);
