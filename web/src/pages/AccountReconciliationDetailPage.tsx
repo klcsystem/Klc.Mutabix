@@ -139,7 +139,7 @@ export default function AccountReconciliationDetailPage() {
         <Card>
           <div className="flex items-center justify-between mb-2">
             <p className="text-[11px] text-slate-400 uppercase tracking-wider">Durum</p>
-            <StatusBadge status={r.status as 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected' | 'Expired'} />
+            <StatusBadge status={r.status as 'Pending' | 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected' | 'Expired'} />
           </div>
           <div className="mt-3 space-y-1.5 text-[12px] text-slate-500">
             <p>Olusturma: {formatDateTime(r.createdAt)}</p>
@@ -153,7 +153,7 @@ export default function AccountReconciliationDetailPage() {
 
       {/* Timeline */}
       <Card title="Mutabakat Sureci">
-        <StatusTimeline currentStatus={r.status as 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected'} dates={timelineDates} />
+        <StatusTimeline currentStatus={r.status as 'Pending' | 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected'} dates={timelineDates} />
       </Card>
 
       {/* Email history */}

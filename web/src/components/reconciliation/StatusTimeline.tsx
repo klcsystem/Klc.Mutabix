@@ -9,7 +9,7 @@ interface TimelineStep {
 }
 
 interface StatusTimelineProps {
-  currentStatus: 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected'
+  currentStatus: 'Pending' | 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected'
   dates?: {
     created?: string
     sent?: string
@@ -19,7 +19,7 @@ interface StatusTimelineProps {
 }
 
 export default function StatusTimeline({ currentStatus, dates }: StatusTimelineProps) {
-  const statusOrder = ['Draft', 'Sent', 'Read', 'Approved'] as const
+  const statusOrder = ['Pending', 'Draft', 'Sent', 'Read', 'Approved'] as const
 
   const getStepStatus = (step: string): 'completed' | 'active' | 'pending' => {
     const currentIdx = statusOrder.indexOf(currentStatus as typeof statusOrder[number])

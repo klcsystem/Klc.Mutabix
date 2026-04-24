@@ -1,6 +1,7 @@
 import Badge from './Badge'
 
 const statusMap = {
+  Pending: { variant: 'default' as const, label: 'Bekliyor' },
   Draft: { variant: 'default' as const, label: 'Taslak' },
   Sent: { variant: 'info' as const, label: 'Gonderildi' },
   Read: { variant: 'warning' as const, label: 'Okundu' },

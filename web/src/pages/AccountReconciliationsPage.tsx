@@ -186,7 +186,7 @@ export default function AccountReconciliationsPage() {
                   <Td className="font-mono text-[12px]">{formatCurrency(r.debitAmount, r.currencyType)}</Td>
                   <Td className="font-mono text-[12px]">{formatCurrency(r.creditAmount, r.currencyType)}</Td>
                   <Td>{r.currencyType}</Td>
-                  <Td><StatusBadge status={r.status as 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected' | 'Expired'} /></Td>
+                  <Td><StatusBadge status={r.status as 'Pending' | 'Draft' | 'Sent' | 'Read' | 'Approved' | 'Rejected' | 'Expired'} /></Td>
                   <Td>
                     <div className="flex items-center gap-1">
                       {r.isSent ? (
