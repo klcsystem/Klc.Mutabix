@@ -139,6 +139,24 @@ public static class MutabixSeeder
                 TaxNumber = "3344556677",
                 Email = "muhasebe@egekimya.com",
                 CurrencyType = CurrencyType.TRY
+            },
+            new()
+            {
+                CompanyId = company.Id,
+                Code = "120-006",
+                Name = "KLC Sistem Bilgi Teknolojileri",
+                TaxNumber = "0123456789",
+                Email = "ibrahim.kilic@klcsystem.com",
+                CurrencyType = CurrencyType.TRY
+            },
+            new()
+            {
+                CompanyId = company.Id,
+                Code = "120-007",
+                Name = "KLC SYSTEM",
+                TaxNumber = "9876543211",
+                Email = "ibrahim.kilic@kclsystem.com",
+                CurrencyType = CurrencyType.TRY
             }
         };
         context.CurrencyAccounts.AddRange(accounts);
