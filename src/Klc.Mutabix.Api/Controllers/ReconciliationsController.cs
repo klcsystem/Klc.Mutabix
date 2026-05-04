@@ -15,6 +15,8 @@ namespace Klc.Mutabix.Api.Controllers;
 public class ReconciliationsController(IMediator mediator, IConfiguration configuration) : ControllerBase
 {
     private string BaseUrl => configuration["App:BaseUrl"] ?? "https://mutabix.klcsystem.com";
+    private string? DefaultCc => configuration["Mail:DefaultCc"];
+
     // Account Reconciliations
     [HttpGet("account/{companyId:int}")]
     public async Task<ActionResult<ApiResponse<List<AccountReconciliationDto>>>> GetAccountReconciliations(int companyId)
@@ -42,7 +44,7 @@ public class ReconciliationsController(IMediator mediator, IConfiguration config
     [HttpPost("account/{id:int}/send")]
     public async Task<ActionResult<ApiResponse>> SendAccountReconciliationEmail(int id)
     {
-        var result = await mediator.Send(new SendReconciliationEmailCommand(id, ReconciliationType.AccountReconciliation, BaseUrl));
+        var result = await mediator.Send(new SendReconciliationEmailCommand(id, ReconciliationType.AccountReconciliation, BaseUrl, DefaultCc));
         if (!result) return BadRequest(ApiResponse.Fail("Email gonderilemedi"));
         return Ok(ApiResponse.Ok("Email gonderildi"));
     }
@@ -74,7 +76,7 @@ public class ReconciliationsController(IMediator mediator, IConfiguration config
     [HttpPost("babs/{id:int}/send")]
     public async Task<ActionResult<ApiResponse>> SendBaBsReconciliationEmail(int id)
     {
-        var result = await mediator.Send(new SendReconciliationEmailCommand(id, ReconciliationType.BaBsReconciliation, BaseUrl));
+        var result = await mediator.Send(new SendReconciliationEmailCommand(id, ReconciliationType.BaBsReconciliation, BaseUrl, DefaultCc));
         if (!result) return BadRequest(ApiResponse.Fail("Email gonderilemedi"));
         return Ok(ApiResponse.Ok("Email gonderildi"));
     }

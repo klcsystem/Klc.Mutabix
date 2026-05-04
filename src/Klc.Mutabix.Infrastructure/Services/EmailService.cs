@@ -11,10 +11,13 @@ namespace Klc.Mutabix.Infrastructure.Services;
 
 public class EmailService(IServiceProvider serviceProvider, ILogger<EmailService> logger) : IMailService
 {
-    public async Task SendMailAsync(string to, string subject, string body, CancellationToken cancellationToken = default)
+    public Task SendMailAsync(string to, string subject, string body, CancellationToken cancellationToken = default)
+        => SendMailAsync(to, subject, body, cc: null, cancellationToken);
+
+    public async Task SendMailAsync(string to, string subject, string body, string? cc = null, CancellationToken cancellationToken = default)
     {
         logger.LogInformation(
-            "Email gonderiliyor -> To: {To}, Subject: {Subject}", to, subject);
+            "Email gonderiliyor -> To: {To}, CC: {Cc}, Subject: {Subject}", to, cc ?? "-", subject);
 
         string smtpServer;
         int smtpPort;
@@ -47,16 +50,26 @@ public class EmailService(IServiceProvider serviceProvider, ILogger<EmailService
                     return;
                 }
 
-                smtpPort = int.Parse(configuration["Mail:SmtpPort"] ?? "1711");
-                useSsl = bool.Parse(configuration["Mail:UseSsl"] ?? "false");
+                smtpPort = int.Parse(configuration["Mail:SmtpPort"] ?? "465");
+                useSsl = bool.Parse(configuration["Mail:UseSsl"] ?? "true");
                 fromAddress = configuration["Mail:FromAddress"] ?? "noreply@mutabix.com";
+                password = configuration["Mail:Password"];
                 logger.LogInformation("Mail parametreleri konfigurasyondan yuklendi (fallback)");
             }
         }
 
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(fromAddress, fromAddress));
+        message.From.Add(new MailboxAddress("Mutabix E-Mutabakat", fromAddress));
         message.To.Add(MailboxAddress.Parse(to));
+
+        if (!string.IsNullOrEmpty(cc))
+        {
+            foreach (var ccAddr in cc.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                message.Cc.Add(MailboxAddress.Parse(ccAddr));
+            }
+        }
+
         message.Subject = subject;
         message.Body = new TextPart("html") { Text = body };
 
@@ -74,6 +87,6 @@ public class EmailService(IServiceProvider serviceProvider, ILogger<EmailService
         await client.SendAsync(message, cancellationToken);
         await client.DisconnectAsync(true, cancellationToken);
 
-        logger.LogInformation("Email basariyla gonderildi -> To: {To}, Subject: {Subject}", to, subject);
+        logger.LogInformation("Email basariyla gonderildi -> To: {To}, CC: {Cc}, Subject: {Subject}", to, cc ?? "-", subject);
     }
 }

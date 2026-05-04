@@ -146,7 +146,7 @@ public static class MutabixSeeder
                 Code = "120-006",
                 Name = "KLC Sistem Bilgi Teknolojileri",
                 TaxNumber = "0123456789",
-                Email = "ibrahim.kilic@klcsystem.com",
+                Email = "erkan.kilic@klcsystem.com",
                 CurrencyType = CurrencyType.TRY
             },
             new()
@@ -155,7 +155,7 @@ public static class MutabixSeeder
                 Code = "120-007",
                 Name = "KLC SYSTEM",
                 TaxNumber = "9876543211",
-                Email = "ibrahim.kilic@kclsystem.com",
+                Email = "erkan.kilic@klcsystem.com",
                 CurrencyType = CurrencyType.TRY
             }
         };

@@ -17,9 +17,13 @@ services:
       - RabbitMQ__Port=5672
       - RabbitMQ__Username=mutabix
       - RabbitMQ__Password=${RABBITMQ_PASSWORD}
-      - Mail__SmtpServer=${MAIL_SMTP_SERVER:-smtp.gmail.com}
-      - Mail__SmtpPort=${MAIL_SMTP_PORT:-587}
+      - Mail__SmtpServer=${MAIL_SMTP_SERVER:-mail.kurumsaleposta.com}
+      - Mail__SmtpPort=${MAIL_SMTP_PORT:-465}
       - Mail__UseSsl=true
+      - Mail__FromAddress=${MAIL_FROM_ADDRESS:-support@klcsystem.com}
+      - Mail__Password=${MAIL_PASSWORD}
+      - Mail__DefaultCc=${MAIL_DEFAULT_CC:-ibrahim.kilic@klcsystem.com}
+      - App__BaseUrl=https://mutabix.klcsystem.com
     restart: unless-stopped
     deploy:
       resources:
