@@ -7,6 +7,7 @@ public record AccountReconciliationDto(
     int CompanyId,
     int CurrencyAccountId,
     string CurrencyAccountName,
+    string? CurrencyAccountEmail,
     DateTime StartDate,
     DateTime EndDate,
     CurrencyType CurrencyType,

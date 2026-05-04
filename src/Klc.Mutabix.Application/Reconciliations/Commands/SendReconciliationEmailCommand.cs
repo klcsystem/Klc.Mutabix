@@ -2,6 +2,7 @@ using Klc.Mutabix.Application.Common.Interfaces;
 using Klc.Mutabix.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Klc.Mutabix.Application.Reconciliations.Commands;
 
@@ -9,12 +10,15 @@ public record SendReconciliationEmailCommand(int ReconciliationId, Reconciliatio
 
 public class SendReconciliationEmailCommandHandler(
     IApplicationDbContext context,
-    IMailService mailService)
+    IMailService mailService,
+    IConfiguration configuration)
     : IRequestHandler<SendReconciliationEmailCommand, bool>
 {
     public async Task<bool> Handle(
         SendReconciliationEmailCommand request, CancellationToken cancellationToken)
     {
+        var baseUrl = configuration["App:BaseUrl"]?.TrimEnd('/') ?? "https://mutabix.klcsystem.com";
+
         if (request.Type == ReconciliationType.AccountReconciliation)
         {
             var rec = await context.AccountReconciliations
@@ -24,6 +28,7 @@ public class SendReconciliationEmailCommandHandler(
             if (rec is null || string.IsNullOrEmpty(rec.CurrencyAccount.Email))
                 return false;
 
+            var approvalLink = $"{baseUrl}/reconciliation/respond/{rec.Guid}";
             var subject = $"Hesap Mutabakat Talebi - {rec.StartDate:dd.MM.yyyy} / {rec.EndDate:dd.MM.yyyy}";
             var body = $"""
                 Sayin Yetkili,
@@ -34,7 +39,7 @@ public class SendReconciliationEmailCommandHandler(
                 Borc: {rec.DebitAmount:N2} {rec.CurrencyType}
                 Alacak: {rec.CreditAmount:N2} {rec.CurrencyType}
 
-                Mutabakat onay linki: /reconciliation/respond/{rec.Guid}
+                Mutabakat onay linki: {approvalLink}
 
                 Saygilarimizla.
                 """;
@@ -56,6 +61,7 @@ public class SendReconciliationEmailCommandHandler(
             if (rec is null || string.IsNullOrEmpty(rec.CurrencyAccount.Email))
                 return false;
 
+            var approvalLink = $"{baseUrl}/reconciliation/respond/{rec.Guid}";
             var subject = $"Ba/Bs Mutabakat Talebi - {rec.Year}/{rec.Month:D2}";
             var body = $"""
                 Sayin Yetkili,
@@ -67,7 +73,7 @@ public class SendReconciliationEmailCommandHandler(
                 Tutar: {rec.Amount:N2}
                 Adet: {rec.Quantity}
 
-                Mutabakat onay linki: /reconciliation/respond/{rec.Guid}
+                Mutabakat onay linki: {approvalLink}
 
                 Saygilarimizla.
                 """;

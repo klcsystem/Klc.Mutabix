@@ -19,6 +19,7 @@ interface AccountReconciliation {
   companyId: number
   currencyAccountId: number
   currencyAccountName: string
+  currencyAccountEmail: string | null
   startDate: string
   endDate: string
   currencyType: string
@@ -256,7 +257,7 @@ export default function AccountReconciliationsPage() {
         loading={sendingEmail}
         data={emailDialog ? {
           companyName: emailDialog.currencyAccountName,
-          email: '',
+          email: emailDialog.currencyAccountEmail ?? '',
           period: `${formatDate(emailDialog.startDate)} — ${formatDate(emailDialog.endDate)}`,
           debit: emailDialog.debitAmount,
           credit: emailDialog.creditAmount,

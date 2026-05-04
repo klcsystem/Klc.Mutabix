@@ -20,6 +20,7 @@ public class GetAccountReconciliationsQueryHandler(IApplicationDbContext context
             .Select(ar => new AccountReconciliationDto(
                 ar.Id, ar.CompanyId, ar.CurrencyAccountId,
                 ar.CurrencyAccount.Name,
+                ar.CurrencyAccount.Email,
                 ar.StartDate, ar.EndDate, ar.CurrencyType,
                 ar.DebitAmount, ar.CreditAmount,
                 ar.Status, ar.Guid, ar.IsSent, ar.SentDate, ar.CreatedAt))
