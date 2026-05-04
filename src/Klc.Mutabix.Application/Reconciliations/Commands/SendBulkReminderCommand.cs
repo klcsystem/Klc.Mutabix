@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Klc.Mutabix.Application.Reconciliations.Commands;
 
-public record SendBulkReminderCommand(int CompanyId) : IRequest<int>;
+public record SendBulkReminderCommand(int CompanyId, string BaseUrl = "https://mutabix.klcsystem.com") : IRequest<int>;
 
 public class SendBulkReminderCommandHandler(
     IApplicationDbContext context,
@@ -30,13 +30,14 @@ public class SendBulkReminderCommandHandler(
             if (string.IsNullOrEmpty(rec.CurrencyAccount.Email))
                 continue;
 
+            var baseUrl = request.BaseUrl.TrimEnd('/');
             var subject = $"Hatirlatma: Mutabakat Yaniti Bekleniyor - {rec.CurrencyAccount.Name}";
             var body = $"""
                 Sayin Yetkili,
 
                 {rec.CurrencyAccount.Name} hesabiniz icin gonderilen mutabakat talebine henuz yanit verilmemistir.
 
-                Mutabakat onay linki: /reconciliation/respond/{rec.Guid}
+                Mutabakat onay linki: {baseUrl}/reconciliation/respond/{rec.Guid}
 
                 Lutfen en kisa surede yanitinizi iletiniz.
                 Saygilarimizla.

@@ -2,22 +2,20 @@ using Klc.Mutabix.Application.Common.Interfaces;
 using Klc.Mutabix.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Klc.Mutabix.Application.Reconciliations.Commands;
 
-public record SendReconciliationEmailCommand(int ReconciliationId, ReconciliationType Type) : IRequest<bool>;
+public record SendReconciliationEmailCommand(int ReconciliationId, ReconciliationType Type, string BaseUrl = "https://mutabix.klcsystem.com") : IRequest<bool>;
 
 public class SendReconciliationEmailCommandHandler(
     IApplicationDbContext context,
-    IMailService mailService,
-    IConfiguration configuration)
+    IMailService mailService)
     : IRequestHandler<SendReconciliationEmailCommand, bool>
 {
     public async Task<bool> Handle(
         SendReconciliationEmailCommand request, CancellationToken cancellationToken)
     {
-        var baseUrl = configuration["App:BaseUrl"]?.TrimEnd('/') ?? "https://mutabix.klcsystem.com";
+        var baseUrl = request.BaseUrl.TrimEnd('/');
 
         if (request.Type == ReconciliationType.AccountReconciliation)
         {
