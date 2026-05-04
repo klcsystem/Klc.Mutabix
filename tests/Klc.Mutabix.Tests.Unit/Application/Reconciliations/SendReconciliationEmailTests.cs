@@ -23,7 +23,7 @@ public class SendReconciliationEmailTests : IDisposable
         _context = new MutabixDbContext(options);
         _mailServiceMock = new Mock<IMailService>();
         _mailServiceMock
-            .Setup(m => m.SendMailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.SendMailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         _handler = new SendReconciliationEmailCommandHandler(_context, _mailServiceMock.Object);
     }
@@ -76,6 +76,7 @@ public class SendReconciliationEmailTests : IDisposable
             "cari@test.com",
             It.Is<string>(s => s.Contains("Mutabakat")),
             It.IsAny<string>(),
+            It.IsAny<string?>(),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -95,7 +96,7 @@ public class SendReconciliationEmailTests : IDisposable
 
         result.Should().BeFalse();
         _mailServiceMock.Verify(m => m.SendMailAsync(
-            It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
