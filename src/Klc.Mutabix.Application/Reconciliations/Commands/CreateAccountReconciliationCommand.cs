@@ -43,13 +43,14 @@ public class CreateAccountReconciliationCommandHandler(IApplicationDbContext con
         context.AccountReconciliations.Add(entity);
         await context.SaveChangesAsync(cancellationToken);
 
-        var accountName = await context.CurrencyAccounts
+        var account = await context.CurrencyAccounts
             .Where(ca => ca.Id == entity.CurrencyAccountId)
-            .Select(ca => ca.Name)
-            .FirstOrDefaultAsync(cancellationToken) ?? "";
+            .Select(ca => new { ca.Name, ca.Email })
+            .FirstOrDefaultAsync(cancellationToken);
 
         return new AccountReconciliationDto(
-            entity.Id, entity.CompanyId, entity.CurrencyAccountId, accountName,
+            entity.Id, entity.CompanyId, entity.CurrencyAccountId,
+            account?.Name ?? "", account?.Email,
             entity.StartDate, entity.EndDate, entity.CurrencyType,
             entity.DebitAmount, entity.CreditAmount,
             entity.Status, entity.Guid, entity.IsSent, entity.SentDate, entity.CreatedAt);
