@@ -155,18 +155,112 @@ export default function LandingPage() {
       {/* Hero — White */}
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
         {/* Animated background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900" />
+        <div className="absolute inset-0 bg-[#030712]" />
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.07]" style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }} />
+        {/* SVG Background Illustration */}
+        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="glow1" cx="30%" cy="40%" r="40%">
+              <stop offset="0%" stopColor="#f97316" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="glow2" cx="70%" cy="60%" r="35%">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="glow3" cx="50%" cy="30%" r="30%">
+              <stop offset="0%" stopColor="#a855f7" stopOpacity="0.06" />
+              <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="line1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#f97316" stopOpacity="0" />
+              <stop offset="50%" stopColor="#f97316" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="line2" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
+              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="shapeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f97316" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#f97316" stopOpacity="0.02" />
+            </linearGradient>
+            <linearGradient id="shapeGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
 
-        {/* Glowing orbs */}
-        <div className="absolute top-16 left-[10%] w-[450px] h-[450px] bg-orange-500/15 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-10 right-[5%] w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[130px]" />
-        <div className="absolute top-[40%] right-[20%] w-[250px] h-[250px] bg-amber-400/10 rounded-full blur-[100px]" />
+          {/* Ambient glows */}
+          <rect width="100%" height="100%" fill="url(#glow1)" />
+          <rect width="100%" height="100%" fill="url(#glow2)" />
+          <rect width="100%" height="100%" fill="url(#glow3)" />
+
+          {/* Grid lines */}
+          <g opacity="0.06">
+            {Array.from({ length: 20 }, (_, i) => (
+              <line key={`h${i}`} x1="0" y1={`${i * 5}%`} x2="100%" y2={`${i * 5}%`} stroke="white" strokeWidth="0.5" />
+            ))}
+            {Array.from({ length: 25 }, (_, i) => (
+              <line key={`v${i}`} x1={`${i * 4}%`} y1="0" x2={`${i * 4}%`} y2="100%" stroke="white" strokeWidth="0.5" />
+            ))}
+          </g>
+
+          {/* Floating geometric shapes */}
+          <g>
+            {/* Large rounded rectangle — top left */}
+            <rect x="5%" y="15%" width="320" height="80" rx="40" fill="url(#shapeGrad1)" stroke="#f97316" strokeOpacity="0.12" strokeWidth="1.5">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,20; 0,0" dur="14s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.6;1;0.6" dur="14s" repeatCount="indefinite" />
+            </rect>
+
+            {/* Medium circle — top right */}
+            <circle cx="82%" cy="20%" r="45" fill="url(#shapeGrad2)" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="1.5">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-15; 0,0" dur="10s" repeatCount="indefinite" />
+            </circle>
+
+            {/* Large rounded rectangle — bottom right */}
+            <rect x="65%" y="75%" width="280" height="70" rx="35" fill="url(#shapeGrad2)" stroke="#8b5cf6" strokeOpacity="0.1" strokeWidth="1.5" transform="rotate(-12, 800, 600)">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,18; 0,0" dur="16s" repeatCount="indefinite" />
+            </rect>
+
+            {/* Small pill — middle left */}
+            <rect x="8%" y="65%" width="160" height="45" rx="22" fill="url(#shapeGrad1)" stroke="#f97316" strokeOpacity="0.08" strokeWidth="1" transform="rotate(8, 100, 500)">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-12; 0,0" dur="12s" repeatCount="indefinite" />
+            </rect>
+
+            {/* Tiny circle — center */}
+            <circle cx="45%" cy="80%" r="25" fill="none" stroke="#f97316" strokeOpacity="0.12" strokeWidth="1.5">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,10; 0,0" dur="8s" repeatCount="indefinite" />
+            </circle>
+
+            {/* Diamond shape — top center */}
+            <rect x="40%" y="8%" width="50" height="50" rx="8" fill="url(#shapeGrad2)" stroke="#a855f7" strokeOpacity="0.1" strokeWidth="1" transform="rotate(45, 500, 60)">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,15; 0,0" dur="11s" repeatCount="indefinite" />
+            </rect>
+          </g>
+
+          {/* Accent lines */}
+          <line x1="10%" y1="45%" x2="90%" y2="45%" stroke="url(#line1)" strokeWidth="0.5" opacity="0.5">
+            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="6s" repeatCount="indefinite" />
+          </line>
+          <line x1="50%" y1="5%" x2="50%" y2="95%" stroke="url(#line2)" strokeWidth="0.5" opacity="0.3">
+            <animate attributeName="opacity" values="0.2;0.4;0.2" dur="8s" repeatCount="indefinite" />
+          </line>
+
+          {/* Dots pattern */}
+          <g opacity="0.15">
+            {Array.from({ length: 8 }, (_, i) =>
+              Array.from({ length: 6 }, (_, j) => (
+                <circle key={`d${i}${j}`} cx={`${12 + i * 11}%`} cy={`${15 + j * 14}%`} r="1.5" fill="white" opacity={Math.random() * 0.5 + 0.2} />
+              ))
+            )}
+          </g>
+        </svg>
+
+        {/* Top and bottom fade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/80 via-transparent to-[#030712]/90 pointer-events-none" />
 
         {/* Floating dashboard mockup — right side */}
         <div className="absolute top-24 right-[2%] lg:right-[5%] w-[380px] lg:w-[440px] hidden lg:block">
