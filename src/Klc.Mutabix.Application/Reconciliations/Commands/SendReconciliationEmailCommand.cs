@@ -32,7 +32,7 @@ public class SendReconciliationEmailCommandHandler(
                 return false;
 
             var company = rec.CurrencyAccount.Company;
-            var approvalLink = $"{baseUrl}/reconciliation/respond/{rec.Guid}";
+            var approvalLink = $"{baseUrl}/mutabakat-yanit/{rec.Guid}";
             var subject = $"Cari Hesap Mutabakat Talebi - {company.Name}";
             var body = BuildAccountReconciliationHtml(
                 companyName: company.Name,
@@ -66,7 +66,7 @@ public class SendReconciliationEmailCommandHandler(
                 return false;
 
             var company = rec.CurrencyAccount.Company;
-            var approvalLink = $"{baseUrl}/reconciliation/respond/{rec.Guid}";
+            var approvalLink = $"{baseUrl}/mutabakat-yanit/{rec.Guid}";
             var subject = $"Ba/Bs Mutabakat Talebi - {company.Name}";
             var body = BuildBaBsReconciliationHtml(
                 companyName: company.Name,

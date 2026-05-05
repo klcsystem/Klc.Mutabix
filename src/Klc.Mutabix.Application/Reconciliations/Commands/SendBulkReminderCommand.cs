@@ -37,7 +37,7 @@ public class SendBulkReminderCommandHandler(
 
                 {rec.CurrencyAccount.Name} hesabiniz icin gonderilen mutabakat talebine henuz yanit verilmemistir.
 
-                Mutabakat onay linki: {baseUrl}/reconciliation/respond/{rec.Guid}
+                Mutabakat onay linki: {baseUrl}/mutabakat-yanit/{rec.Guid}
 
                 Lutfen en kisa surede yanitinizi iletiniz.
                 Saygilarimizla.

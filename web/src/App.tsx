@@ -31,6 +31,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mutabakat-yanit/:guid" element={<ReconciliationResponsePage />} />
+      <Route path="/reconciliation/respond/:guid" element={<ReconciliationResponsePage />} />
 
       {/* Protected routes */}
       <Route path="/dashboard" element={<ProtectedRoute><MainLayout><DashboardPage /></MainLayout></ProtectedRoute>} />
