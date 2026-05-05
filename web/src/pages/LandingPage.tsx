@@ -121,25 +121,25 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/50">
+      <nav className="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-400/20">
               <FileCheck className="w-4.5 h-4.5 text-white" />
             </div>
             <div>
-              <span className="text-lg font-bold text-slate-900 tracking-tight">Mutabix</span>
+              <span className="text-lg font-bold text-white tracking-tight">Mutabix</span>
               <span className="text-[10px] text-orange-500 ml-1 font-medium">e-Mutabakat</span>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Özellikler</a>
-            <a href="#erp" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">ERP</a>
-            <a href="#how" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Nasıl Çalışır</a>
-            <a href="#faq" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">SSS</a>
+            <a href="#features" className="text-[13px] text-white/70 hover:text-orange-400 transition-colors font-medium">Özellikler</a>
+            <a href="#erp" className="text-[13px] text-white/70 hover:text-orange-400 transition-colors font-medium">ERP</a>
+            <a href="#how" className="text-[13px] text-white/70 hover:text-orange-400 transition-colors font-medium">Nasıl Çalışır</a>
+            <a href="#faq" className="text-[13px] text-white/70 hover:text-orange-400 transition-colors font-medium">SSS</a>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/login')} className="text-[13px] text-slate-600 hover:text-slate-900 font-medium transition-colors">
+            <button onClick={() => navigate('/login')} className="text-[13px] text-white/80 hover:text-white font-medium transition-colors">
               Giriş Yap
             </button>
             <button
@@ -153,150 +153,71 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
-        {/* Light warm background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-amber-50/30" />
+      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden min-h-[90vh] flex items-center">
+        {/* Background handshake image */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/50" />
+          {/* Bottom fade to white */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+          {/* Subtle orange tint */}
+          <div className="absolute inset-0 bg-orange-500/[0.03]" />
+        </div>
 
-        {/* Subtle grid */}
-        <div className="absolute inset-0 opacity-[0.4]" style={{
-          backgroundImage: `radial-gradient(circle, #f97316 0.5px, transparent 0.5px)`,
-          backgroundSize: '32px 32px'
-        }} />
-
-        {/* Soft glows */}
-        <div className="absolute top-10 left-[5%] w-[500px] h-[500px] bg-orange-200/40 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-amber-100/50 rounded-full blur-[120px]" />
-        <div className="absolute top-[30%] right-[30%] w-[300px] h-[300px] bg-orange-100/30 rounded-full blur-[100px]" />
-
-        {/* Floating dashboard mockup — right side */}
-        <div className="absolute top-24 right-[2%] lg:right-[5%] w-[380px] lg:w-[440px] hidden lg:block">
-          {/* Main card */}
-          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-2xl p-5 shadow-xl shadow-orange-100/40 transform rotate-2 hover:rotate-0 transition-transform duration-700">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
-                  <FileCheck className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-slate-700 text-[13px] font-medium">Mutabakat Ozeti</span>
-              </div>
-              <span className="text-[11px] text-emerald-600 font-medium">+12% bu ay</span>
+        {/* Content — left aligned over the image */}
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
+              <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+              <span className="text-[12px] text-orange-300 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
             </div>
-            {/* Mini chart bars */}
-            <div className="flex items-end gap-1.5 h-20 mb-4">
-              {[40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 88].map((h, i) => (
-                <div key={i} className="flex-1 rounded-t-sm" style={{
-                  height: `${h}%`,
-                  background: i >= 10 ? 'linear-gradient(to top, #f97316, #fb923c)' : '#f1f5f9',
-                  ...(i >= 10 ? { boxShadow: '0 0 8px rgba(249,115,22,0.3)' } : {})
-                }} />
+
+            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-bold text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">
+              Cari Hesap Mutabakatı<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+                Artık Dijital
+              </span>
+            </h1>
+
+            <p className="text-base lg:text-lg text-white/70 max-w-xl mb-10 leading-relaxed">
+              ERP entegrasyonları ile cari hesaplarınızı senkronize edin, tek tıkla mutabakat gönderin,
+              karşı tarafın yanıtını gerçek zamanlı takip edin.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-start gap-4 mb-12">
+              <button
+                onClick={() => navigate('/login')}
+                className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-500/30 active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                Ücretsiz Dene <ArrowRight className="w-4.5 h-4.5" />
+              </button>
+              <a
+                href="#how"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-white/25 text-white/90 text-[15px] font-medium hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center gap-2 backdrop-blur-sm"
+              >
+                Nasıl Çalışır? <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-lg">
+              {stats.map((s) => (
+                <div key={s.label} className="text-center p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                  <div className="flex items-center justify-center gap-1.5 mb-0.5">
+                    <s.icon className="w-3.5 h-3.5 text-orange-400" />
+                    <span className="text-xl font-bold text-white">{s.value}</span>
+                  </div>
+                  <span className="text-[11px] text-white/50 font-medium">{s.label}</span>
+                </div>
               ))}
             </div>
-            {/* Stats row */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-slate-50 rounded-lg p-2.5">
-                <p className="text-[10px] text-slate-400">Gonderilen</p>
-                <p className="text-[16px] font-bold text-slate-900">248</p>
-              </div>
-              <div className="bg-emerald-50 rounded-lg p-2.5">
-                <p className="text-[10px] text-slate-400">Onaylanan</p>
-                <p className="text-[16px] font-bold text-emerald-600">186</p>
-              </div>
-              <div className="bg-amber-50 rounded-lg p-2.5">
-                <p className="text-[10px] text-slate-400">Bekleyen</p>
-                <p className="text-[16px] font-bold text-amber-600">62</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating notification card */}
-          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3.5 mt-3 shadow-lg shadow-slate-100/50 transform -rotate-1 hover:rotate-0 transition-transform duration-700 ml-8">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                <CheckSquare className="w-4 h-4 text-emerald-600" />
-              </div>
-              <div>
-                <p className="text-[12px] text-slate-700 font-medium">ABC Tedarik Ltd. mutabakati onayladi</p>
-                <p className="text-[10px] text-slate-400">2 dakika once</p>
-              </div>
-            </div>
           </div>
         </div>
-
-        {/* Floating elements — left side */}
-        <div className="absolute top-32 left-[3%] hidden lg:block">
-          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3 shadow-lg shadow-slate-100/50 transform -rotate-3 hover:rotate-0 transition-transform duration-700">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
-                <Plug className="w-3.5 h-3.5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-[11px] text-slate-700 font-medium">SAP Senkronizasyon</p>
-                <p className="text-[10px] text-emerald-600">Basarili — 1.847 kayit</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-32 left-[8%] hidden lg:block">
-          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3 shadow-lg shadow-slate-100/50 transform rotate-2 hover:rotate-0 transition-transform duration-700">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
-                <Mail className="w-3.5 h-3.5 text-orange-600" />
-              </div>
-              <div>
-                <p className="text-[11px] text-slate-700 font-medium">Toplu email gonderildi</p>
-                <p className="text-[10px] text-slate-400">24 firma — 3 sn once</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative max-w-5xl mx-auto text-center px-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200/50 mb-8">
-            <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-            <span className="text-[12px] text-orange-600 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
-            Cari Hesap Mutabakatı<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
-              Artık Dijital
-            </span>
-          </h1>
-
-          <p className="text-base lg:text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            ERP entegrasyonları ile cari hesaplarınızı senkronize edin, tek tıkla mutabakat gönderin,
-            karşı tarafın yanıtını gerçek zamanlı takip edin. Ba/Bs bildirimleri, otomatik eşleştirme
-            ve detaylı raporlarla muhasebe süreçlerinizi hızlandırın.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-            <button
-              onClick={() => navigate('/login')}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[15px] font-semibold hover:from-orange-500 hover:to-orange-600 transition-all shadow-xl shadow-orange-400/25 active:scale-[0.98] flex items-center justify-center gap-2"
-            >
-              Ücretsiz Dene <ArrowRight className="w-4.5 h-4.5" />
-            </button>
-            <a
-              href="#how"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-200 text-slate-600 text-[15px] font-medium hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
-            >
-              Nasıl Çalışır? <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center p-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-100 shadow-sm">
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <s.icon className="w-4 h-4 text-orange-500" />
-                  <span className="text-2xl font-bold text-slate-900">{s.value}</span>
-                </div>
-                <span className="text-[12px] text-slate-400 font-medium">{s.label}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
