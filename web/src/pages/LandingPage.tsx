@@ -92,36 +92,6 @@ const steps = [
   },
 ]
 
-const pricingPlans = [
-  {
-    name: 'Başlangıç',
-    price: 'Ücretsiz',
-    period: '',
-    desc: 'Küçük işletmeler için',
-    features: ['50 cari hesap', '100 mutabakat/ay', 'Excel import/export', 'Email bildirimleri', 'Temel raporlar'],
-    cta: 'Hemen Başla',
-    highlight: false,
-  },
-  {
-    name: 'Profesyonel',
-    price: '₺2.990',
-    period: '/ay',
-    desc: 'Büyüyen işletmeler için',
-    features: ['Sınırsız cari hesap', 'Sınırsız mutabakat', '2 ERP entegrasyonu', 'Otomatik eşleştirme', 'Gelişmiş raporlar', 'Ba/Bs yönetimi', 'Öncelikli destek'],
-    cta: 'Ücretsiz Dene',
-    highlight: true,
-  },
-  {
-    name: 'Kurumsal',
-    price: 'Özel',
-    period: '',
-    desc: 'Büyük firmalar için',
-    features: ['Her şey Profesyonel\'de', 'Sınırsız ERP entegrasyonu', 'SAP RFC/BAPI', 'Özel API entegrasyonu', 'Audit trail', 'SLA garantisi', 'Özel eğitim ve destek'],
-    cta: 'İletişime Geç',
-    highlight: false,
-  },
-]
-
 const faqs = [
   {
     q: 'Mutabix hangi ERP sistemleriyle entegre olur?',
@@ -166,7 +136,6 @@ export default function LandingPage() {
             <a href="#features" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Özellikler</a>
             <a href="#erp" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">ERP</a>
             <a href="#how" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Nasıl Çalışır</a>
-            <a href="#pricing" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">Fiyatlar</a>
             <a href="#faq" className="text-[13px] text-slate-500 hover:text-orange-500 transition-colors font-medium">SSS</a>
           </div>
           <div className="flex items-center gap-3">
@@ -426,59 +395,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="bg-slate-50/80 py-24 border-t border-slate-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block text-[12px] font-semibold text-orange-500 uppercase tracking-[0.15em] mb-3">Fiyatlandırma</span>
-            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">İşletmenize Uygun Plan</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">14 gün ücretsiz deneme. Kredi kartı gerekmez.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {pricingPlans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`relative bg-white p-7 rounded-2xl border transition-all ${
-                  plan.highlight
-                    ? 'border-orange-300 shadow-xl shadow-orange-100/50 scale-[1.02]'
-                    : 'border-slate-200/60 hover:border-orange-200 hover:shadow-lg'
-                }`}
-              >
-                {plan.highlight && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-orange-400 to-orange-500 text-white text-[11px] font-semibold shadow-lg">
-                    En Popüler
-                  </div>
-                )}
-                <h3 className="text-lg font-bold text-slate-900 mb-1">{plan.name}</h3>
-                <p className="text-[12px] text-slate-400 mb-4">{plan.desc}</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-3xl font-bold text-slate-900">{plan.price}</span>
-                  {plan.period && <span className="text-[13px] text-slate-400">{plan.period}</span>}
-                </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-[13px] text-slate-600">
-                      <CheckSquare className="w-4 h-4 text-orange-500 flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => navigate('/login')}
-                  className={`w-full py-2.5 rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${
-                    plan.highlight
-                      ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-white hover:from-orange-500 hover:to-orange-600 shadow-lg shadow-orange-400/20'
-                      : 'border border-slate-200 text-slate-700 hover:border-orange-300 hover:text-orange-600'
-                  }`}
-                >
-                  {plan.cta}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section id="faq" className="py-24">
         <div className="max-w-3xl mx-auto px-6">
@@ -541,7 +457,6 @@ export default function LandingPage() {
               <ul className="space-y-2.5">
                 <li><a href="#features" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">Özellikler</a></li>
                 <li><a href="#erp" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">ERP Entegrasyonları</a></li>
-                <li><a href="#pricing" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">Fiyatlar</a></li>
                 <li><a href="#faq" className="text-[12px] text-slate-400 hover:text-orange-500 transition-colors">SSS</a></li>
               </ul>
             </div>
