@@ -42,6 +42,7 @@ jobs:
           host: 139.59.209.134
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 20m
           script: |
             cd /opt/mutabix
             git pull origin main
