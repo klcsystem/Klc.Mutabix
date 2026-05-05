@@ -89,6 +89,16 @@ public class ReconciliationsController(IMediator mediator, IConfiguration config
         return Ok(ApiResponse<ReconciliationStatsDto>.Ok(result));
     }
 
+    // Public reconciliation view (no auth required)
+    [AllowAnonymous]
+    [HttpGet("respond/{guid}")]
+    public async Task<ActionResult<ApiResponse<ReconciliationPublicDto>>> GetByGuid(string guid)
+    {
+        var result = await mediator.Send(new GetReconciliationByGuidQuery(guid));
+        if (result is null) return NotFound(ApiResponse.Fail("Mutabakat bulunamadi"));
+        return Ok(ApiResponse<ReconciliationPublicDto>.Ok(result));
+    }
+
     // Public counterparty response endpoint (no auth required)
     [AllowAnonymous]
     [HttpPost("respond/{guid}")]
