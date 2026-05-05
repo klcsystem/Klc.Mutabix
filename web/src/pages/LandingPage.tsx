@@ -124,9 +124,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-400/20">
-              <FileCheck className="w-4.5 h-4.5 text-white" />
-            </div>
+            <img src="/logo.svg" alt="Mutabix" className="w-9 h-9" />
             <div>
               <span className="text-lg font-bold text-slate-900 tracking-tight">Mutabix</span>
               <span className="text-[10px] text-orange-500 ml-1 font-medium">e-Mutabakat</span>
@@ -358,9 +356,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
-                  <FileCheck className="w-4.5 h-4.5 text-white" />
-                </div>
+                <img src="/logo.svg" alt="Mutabix" className="w-9 h-9" />
                 <span className="text-lg font-bold text-slate-900">Mutabix</span>
               </div>
               <p className="text-[13px] text-slate-400 leading-relaxed max-w-sm">

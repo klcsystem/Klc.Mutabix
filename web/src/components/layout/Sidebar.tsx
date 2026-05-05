@@ -108,9 +108,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-5 py-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-400/10">
-            <FileCheck className="w-5 h-5 text-white" />
-          </div>
+          <img src="/logo.svg" alt="Mutabix" className="w-10 h-10" />
           <div>
             <h1 className="text-[15px] font-bold tracking-tight text-white">Mutabix</h1>
             <p className="text-[10px] text-blue-300/40 uppercase tracking-[0.15em]">e-Mutabakat</p>
