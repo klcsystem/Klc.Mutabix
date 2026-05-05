@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import {
-  FileCheck, Plug, CheckSquare, Mail, BarChart3, ArrowRight, Shield,
+  Plug, CheckSquare, Mail, BarChart3, ArrowRight, Shield,
   Clock, Users, Building2, Zap, Globe, ChevronRight, TrendingUp,
   FileSpreadsheet, Bell, Lock, RefreshCw, Database, Layers
 } from 'lucide-react'
