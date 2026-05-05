@@ -152,165 +152,71 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero — White */}
+      {/* Hero */}
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-[#030712]" />
+        {/* Light warm background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-amber-50/30" />
 
-        {/* SVG Background Illustration */}
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="glow1" cx="30%" cy="40%" r="40%">
-              <stop offset="0%" stopColor="#f97316" stopOpacity="0.12" />
-              <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="glow2" cx="70%" cy="60%" r="35%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-            </radialGradient>
-            <radialGradient id="glow3" cx="50%" cy="30%" r="30%">
-              <stop offset="0%" stopColor="#a855f7" stopOpacity="0.06" />
-              <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id="line1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#f97316" stopOpacity="0" />
-              <stop offset="50%" stopColor="#f97316" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="line2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-              <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="shapeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f97316" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#f97316" stopOpacity="0.02" />
-            </linearGradient>
-            <linearGradient id="shapeGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.1" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.02" />
-            </linearGradient>
-          </defs>
+        {/* Subtle grid */}
+        <div className="absolute inset-0 opacity-[0.4]" style={{
+          backgroundImage: `radial-gradient(circle, #f97316 0.5px, transparent 0.5px)`,
+          backgroundSize: '32px 32px'
+        }} />
 
-          {/* Ambient glows */}
-          <rect width="100%" height="100%" fill="url(#glow1)" />
-          <rect width="100%" height="100%" fill="url(#glow2)" />
-          <rect width="100%" height="100%" fill="url(#glow3)" />
-
-          {/* Grid lines */}
-          <g opacity="0.06">
-            {Array.from({ length: 20 }, (_, i) => (
-              <line key={`h${i}`} x1="0" y1={`${i * 5}%`} x2="100%" y2={`${i * 5}%`} stroke="white" strokeWidth="0.5" />
-            ))}
-            {Array.from({ length: 25 }, (_, i) => (
-              <line key={`v${i}`} x1={`${i * 4}%`} y1="0" x2={`${i * 4}%`} y2="100%" stroke="white" strokeWidth="0.5" />
-            ))}
-          </g>
-
-          {/* Floating geometric shapes */}
-          <g>
-            {/* Large rounded rectangle — top left */}
-            <rect x="5%" y="15%" width="320" height="80" rx="40" fill="url(#shapeGrad1)" stroke="#f97316" strokeOpacity="0.12" strokeWidth="1.5">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,20; 0,0" dur="14s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.6;1;0.6" dur="14s" repeatCount="indefinite" />
-            </rect>
-
-            {/* Medium circle — top right */}
-            <circle cx="82%" cy="20%" r="45" fill="url(#shapeGrad2)" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="1.5">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-15; 0,0" dur="10s" repeatCount="indefinite" />
-            </circle>
-
-            {/* Large rounded rectangle — bottom right */}
-            <rect x="65%" y="75%" width="280" height="70" rx="35" fill="url(#shapeGrad2)" stroke="#8b5cf6" strokeOpacity="0.1" strokeWidth="1.5" transform="rotate(-12, 800, 600)">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,18; 0,0" dur="16s" repeatCount="indefinite" />
-            </rect>
-
-            {/* Small pill — middle left */}
-            <rect x="8%" y="65%" width="160" height="45" rx="22" fill="url(#shapeGrad1)" stroke="#f97316" strokeOpacity="0.08" strokeWidth="1" transform="rotate(8, 100, 500)">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-12; 0,0" dur="12s" repeatCount="indefinite" />
-            </rect>
-
-            {/* Tiny circle — center */}
-            <circle cx="45%" cy="80%" r="25" fill="none" stroke="#f97316" strokeOpacity="0.12" strokeWidth="1.5">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,10; 0,0" dur="8s" repeatCount="indefinite" />
-            </circle>
-
-            {/* Diamond shape — top center */}
-            <rect x="40%" y="8%" width="50" height="50" rx="8" fill="url(#shapeGrad2)" stroke="#a855f7" strokeOpacity="0.1" strokeWidth="1" transform="rotate(45, 500, 60)">
-              <animateTransform attributeName="transform" type="translate" values="0,0; 0,15; 0,0" dur="11s" repeatCount="indefinite" />
-            </rect>
-          </g>
-
-          {/* Accent lines */}
-          <line x1="10%" y1="45%" x2="90%" y2="45%" stroke="url(#line1)" strokeWidth="0.5" opacity="0.5">
-            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="6s" repeatCount="indefinite" />
-          </line>
-          <line x1="50%" y1="5%" x2="50%" y2="95%" stroke="url(#line2)" strokeWidth="0.5" opacity="0.3">
-            <animate attributeName="opacity" values="0.2;0.4;0.2" dur="8s" repeatCount="indefinite" />
-          </line>
-
-          {/* Dots pattern */}
-          <g opacity="0.15">
-            {Array.from({ length: 8 }, (_, i) =>
-              Array.from({ length: 6 }, (_, j) => (
-                <circle key={`d${i}${j}`} cx={`${12 + i * 11}%`} cy={`${15 + j * 14}%`} r="1.5" fill="white" opacity={Math.random() * 0.5 + 0.2} />
-              ))
-            )}
-          </g>
-        </svg>
-
-        {/* Top and bottom fade */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/80 via-transparent to-[#030712]/90 pointer-events-none" />
+        {/* Soft glows */}
+        <div className="absolute top-10 left-[5%] w-[500px] h-[500px] bg-orange-200/40 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-amber-100/50 rounded-full blur-[120px]" />
+        <div className="absolute top-[30%] right-[30%] w-[300px] h-[300px] bg-orange-100/30 rounded-full blur-[100px]" />
 
         {/* Floating dashboard mockup — right side */}
         <div className="absolute top-24 right-[2%] lg:right-[5%] w-[380px] lg:w-[440px] hidden lg:block">
           {/* Main card */}
-          <div className="bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-5 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
+          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-2xl p-5 shadow-xl shadow-orange-100/40 transform rotate-2 hover:rotate-0 transition-transform duration-700">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
                   <FileCheck className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-white/80 text-[13px] font-medium">Mutabakat Ozeti</span>
+                <span className="text-slate-700 text-[13px] font-medium">Mutabakat Ozeti</span>
               </div>
-              <span className="text-[11px] text-emerald-400 font-medium">+12% bu ay</span>
+              <span className="text-[11px] text-emerald-600 font-medium">+12% bu ay</span>
             </div>
             {/* Mini chart bars */}
             <div className="flex items-end gap-1.5 h-20 mb-4">
               {[40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 88].map((h, i) => (
                 <div key={i} className="flex-1 rounded-t-sm" style={{
                   height: `${h}%`,
-                  background: i >= 10 ? 'linear-gradient(to top, #f97316, #fb923c)' : 'rgba(255,255,255,0.1)',
+                  background: i >= 10 ? 'linear-gradient(to top, #f97316, #fb923c)' : '#f1f5f9',
                   ...(i >= 10 ? { boxShadow: '0 0 8px rgba(249,115,22,0.3)' } : {})
                 }} />
               ))}
             </div>
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-white/[0.05] rounded-lg p-2.5">
-                <p className="text-[10px] text-white/40">Gonderilen</p>
-                <p className="text-[16px] font-bold text-white">248</p>
+              <div className="bg-slate-50 rounded-lg p-2.5">
+                <p className="text-[10px] text-slate-400">Gonderilen</p>
+                <p className="text-[16px] font-bold text-slate-900">248</p>
               </div>
-              <div className="bg-white/[0.05] rounded-lg p-2.5">
-                <p className="text-[10px] text-white/40">Onaylanan</p>
-                <p className="text-[16px] font-bold text-emerald-400">186</p>
+              <div className="bg-emerald-50 rounded-lg p-2.5">
+                <p className="text-[10px] text-slate-400">Onaylanan</p>
+                <p className="text-[16px] font-bold text-emerald-600">186</p>
               </div>
-              <div className="bg-white/[0.05] rounded-lg p-2.5">
-                <p className="text-[10px] text-white/40">Bekleyen</p>
-                <p className="text-[16px] font-bold text-amber-400">62</p>
+              <div className="bg-amber-50 rounded-lg p-2.5">
+                <p className="text-[10px] text-slate-400">Bekleyen</p>
+                <p className="text-[16px] font-bold text-amber-600">62</p>
               </div>
             </div>
           </div>
 
           {/* Floating notification card */}
-          <div className="bg-white/[0.08] backdrop-blur-sm border border-white/[0.1] rounded-xl p-3.5 mt-3 transform -rotate-1 hover:rotate-0 transition-transform duration-700 ml-8">
+          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3.5 mt-3 shadow-lg shadow-slate-100/50 transform -rotate-1 hover:rotate-0 transition-transform duration-700 ml-8">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <CheckSquare className="w-4 h-4 text-emerald-400" />
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <CheckSquare className="w-4 h-4 text-emerald-600" />
               </div>
               <div>
-                <p className="text-[12px] text-white/80 font-medium">ABC Tedarik Ltd. mutabakati onayladi</p>
-                <p className="text-[10px] text-white/30">2 dakika once</p>
+                <p className="text-[12px] text-slate-700 font-medium">ABC Tedarik Ltd. mutabakati onayladi</p>
+                <p className="text-[10px] text-slate-400">2 dakika once</p>
               </div>
             </div>
           </div>
@@ -318,47 +224,47 @@ export default function LandingPage() {
 
         {/* Floating elements — left side */}
         <div className="absolute top-32 left-[3%] hidden lg:block">
-          <div className="bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] rounded-xl p-3 transform -rotate-3 hover:rotate-0 transition-transform duration-700">
+          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3 shadow-lg shadow-slate-100/50 transform -rotate-3 hover:rotate-0 transition-transform duration-700">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <Plug className="w-3.5 h-3.5 text-blue-400" />
+              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                <Plug className="w-3.5 h-3.5 text-blue-600" />
               </div>
               <div>
-                <p className="text-[11px] text-white/70 font-medium">SAP Senkronizasyon</p>
-                <p className="text-[10px] text-emerald-400">Basarili — 1.847 kayit</p>
+                <p className="text-[11px] text-slate-700 font-medium">SAP Senkronizasyon</p>
+                <p className="text-[10px] text-emerald-600">Basarili — 1.847 kayit</p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-32 left-[8%] hidden lg:block">
-          <div className="bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] rounded-xl p-3 transform rotate-2 hover:rotate-0 transition-transform duration-700">
+          <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-xl p-3 shadow-lg shadow-slate-100/50 transform rotate-2 hover:rotate-0 transition-transform duration-700">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-orange-500/20 flex items-center justify-center">
-                <Mail className="w-3.5 h-3.5 text-orange-400" />
+              <div className="w-7 h-7 rounded-lg bg-orange-100 flex items-center justify-center">
+                <Mail className="w-3.5 h-3.5 text-orange-600" />
               </div>
               <div>
-                <p className="text-[11px] text-white/70 font-medium">Toplu email gonderildi</p>
-                <p className="text-[10px] text-white/40">24 firma — 3 sn once</p>
+                <p className="text-[11px] text-slate-700 font-medium">Toplu email gonderildi</p>
+                <p className="text-[10px] text-slate-400">24 firma — 3 sn once</p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center px-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.1] mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200/50 mb-8">
             <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-            <span className="text-[12px] text-orange-300 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
+            <span className="text-[12px] text-orange-600 font-medium">Türkiye'nin Lider E-Mutabakat Platformu</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-white leading-[1.1] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold text-slate-900 leading-[1.1] tracking-tight mb-6">
             Cari Hesap Mutabakatı<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
               Artık Dijital
             </span>
           </h1>
 
-          <p className="text-base lg:text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base lg:text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
             ERP entegrasyonları ile cari hesaplarınızı senkronize edin, tek tıkla mutabakat gönderin,
             karşı tarafın yanıtını gerçek zamanlı takip edin. Ba/Bs bildirimleri, otomatik eşleştirme
             ve detaylı raporlarla muhasebe süreçlerinizi hızlandırın.
@@ -373,7 +279,7 @@ export default function LandingPage() {
             </button>
             <a
               href="#how"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-white/[0.15] text-white/80 text-[15px] font-medium hover:bg-white/[0.05] hover:border-white/[0.25] transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-200 text-slate-600 text-[15px] font-medium hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
             >
               Nasıl Çalışır? <ChevronRight className="w-4 h-4" />
             </a>
@@ -382,12 +288,12 @@ export default function LandingPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
             {stats.map((s) => (
-              <div key={s.label} className="text-center p-4 rounded-2xl bg-white/[0.05] border border-white/[0.08] backdrop-blur-sm">
+              <div key={s.label} className="text-center p-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-100 shadow-sm">
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <s.icon className="w-4 h-4 text-orange-400" />
-                  <span className="text-2xl font-bold text-white">{s.value}</span>
+                  <s.icon className="w-4 h-4 text-orange-500" />
+                  <span className="text-2xl font-bold text-slate-900">{s.value}</span>
                 </div>
-                <span className="text-[12px] text-white/40 font-medium">{s.label}</span>
+                <span className="text-[12px] text-slate-400 font-medium">{s.label}</span>
               </div>
             ))}
           </div>
